@@ -1,0 +1,1 @@
+gcc sqlite.c -o sqlite -lsqlite3
