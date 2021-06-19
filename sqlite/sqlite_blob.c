@@ -43,13 +43,12 @@ void close(sqlite3* db_p){
   fprintf(stdout, "Closed database successfully\n");
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char **argv)
 {
-  // https://www.zhihu.com/question/29905170
   sqlite3* db_p;
 
   // connect
-  char* db_name = "test_c.db";
+  char* db_name = "test_blob.db";
   connect(&db_p, db_name);
 
   // delete previous table if exists
@@ -57,40 +56,49 @@ int main(int argc, char *argv[])
   execute(db_p, sql);
 
   // create table
-  sql = "CREATE TABLE IF NOT EXISTS COMPANY("  \
-      "ID INT PRIMARY KEY NOT NULL," \
-      "NAME TEXT NOT NULL," \
-      "AGE INT NOT NULL," \
-      "ADDRESS CHAR(50)," \
-      "SALARY REAL);";
- 
+  sql = "CREATE TABLE IF NOT EXISTS IMAGES("  \
+        "ID INTEGER PRIMARY KEY AUTOINCREMENT," \
+        "DATA BLOB NOT NULL);";
   execute(db_p, sql);
 
-  // insert operation
-  sql = "INSERT OR REPLACE INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "  \
-        "VALUES (1, 'Paul', 32, 'California', 20000.00 ); " \
-        "INSERT OR REPLACE INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) "  \
-        "VALUES (2, 'Allen', 25, 'Texas', 15000.00 ); "     \
-        "INSERT OR REPLACE INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)" \
-        "VALUES (3, 'Teddy', 23, 'Norway', 20000.00 );" \
-        "INSERT OR REPLACE INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY)" \
-        "VALUES (4, 'Mark', 25, 'Rich-Mond ', 65000.00 );";
-  execute(db_p, sql);
+  // insert data
+  sqlite3_stmt* stmt_p;
+  sql = "INSERT INTO IMAGES (DATA) VALUES (?)";
+  int rc = sqlite3_prepare(db_p, sql, -1, &stmt_p, NULL);
+  if(rc != SQLITE_OK){
+    fprintf(stderr, "Cannot prepare statement: %s\n", sqlite3_errmsg(db_p));
+    return 1;
+  }
 
-  // select operation
-  sql = "SELECT * from COMPANY";
-  execute(db_p, sql);
+  int idx_param = 1;
+  u_int8_t* data_p = (u_int8_t*)"i'm data";
+  int size = sizeof((char*)data_p);
+  sqlite3_bind_blob(stmt_p, idx_param, data_p, size, SQLITE_STATIC);
 
-  // update operation
-  sql = "UPDATE COMPANY set SALARY = 25000.00 where ID=1; " \
-        "SELECT * from COMPANY";
-  execute(db_p, sql);
+  rc = sqlite3_step(stmt_p);
 
-  // delete operation
-  sql = "DELETE from COMPANY where ID=2; " \
-        "SELECT * from COMPANY";
-  execute(db_p, sql);
+  if (rc != SQLITE_DONE){
+    printf("execution failed: %s", sqlite3_errmsg(db_p));
+  }
 
-  // close
+  sqlite3_finalize(stmt_p);
+
+  // read data
+  sql = "SELECT DATA FROM IMAGES WHERE Id = 1";
+  rc = sqlite3_prepare(db_p, sql, -1, &stmt_p, NULL);
+  if(rc != SQLITE_OK){
+    fprintf(stderr, "Cannot prepare statement: %s\n", sqlite3_errmsg(db_p));
+    return 1;
+  }
+
+  rc = sqlite3_step(stmt_p);
+  if (rc == SQLITE_ROW) {
+    size = sqlite3_column_bytes(stmt_p, 0);
+    fprintf(stderr, "size: %d\n", size);
+  }
+  data_p = (u_int8_t*)sqlite3_column_blob(stmt_p, 0);
+  fprintf(stderr, "data: %s\n", (char*)data_p);
   close(db_p);
+
+  return 0;
 }
