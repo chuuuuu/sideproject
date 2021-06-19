@@ -98,6 +98,10 @@ int main(int argc, char **argv)
   }
   data_p = (u_int8_t*)sqlite3_column_blob(stmt_p, 0);
   fprintf(stderr, "data: %s\n", (char*)data_p);
+
+  sqlite3_finalize(stmt_p);
+
+  // close
   close(db_p);
 
   return 0;
