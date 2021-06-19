@@ -63,7 +63,7 @@ int main(int argc, char **argv)
 
   // insert data
   sqlite3_stmt* stmt_p;
-  sql = "INSERT INTO IMAGES (DATA) VALUES (?)";
+  sql = "INSERT INTO IMAGES (DATA) VALUES (?);";
   int rc = sqlite3_prepare(db_p, sql, -1, &stmt_p, NULL);
   if(rc != SQLITE_OK){
     fprintf(stderr, "Cannot prepare statement: %s\n", sqlite3_errmsg(db_p));
