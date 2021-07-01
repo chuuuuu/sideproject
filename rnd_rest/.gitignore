@@ -29,5 +29,5 @@ yarn-error.log*
 /db
 
 # functions
-/functions
+# /functions
 /lambda
