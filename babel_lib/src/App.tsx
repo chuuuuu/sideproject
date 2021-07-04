@@ -1,26 +1,20 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import * as React from "react";
 
-function App(): React.ReactElement {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+interface Props{
+  bar: string,
+  foo: string,
+}
+
+class App extends React.Component<Props>{
+  constructor(props: Props){
+    super(props);
+  }
+
+  render(): JSX.Element {
+    return (
+      <div> hello world </div>
+    );  
+  }
 }
 
 export default App;
