@@ -30,9 +30,8 @@ npm install @typescript-eslint/parser --save-dev
 npm install @typescript-eslint/eslint-plugin --save-dev
 ```
 
-and you have to create the configuration files
+and you have to create the configuration files `.eslintrc.json` with following content
 ```
-// .eslintrc.json
 {
   "env": {
     "browser": true,
