@@ -21,7 +21,6 @@ Finally create a `.eslintrc.json` with following content
     "es6": true,
     "node": true
   },
-  // Uses the recommended rules from the @typescript-eslint/eslint-plugin
   "extends": [
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended"
