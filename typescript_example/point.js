@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Point = void 0;
 class Point {
     // only write private when they need to
     constructor(_x, _y, sayhi) {
@@ -30,4 +33,4 @@ class Point {
         this._y = y;
     }
 }
-export { Point };
+exports.Point = Point;

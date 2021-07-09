@@ -3,6 +3,7 @@ enum Color {
   Green = 2,
   Blue = 3,
   Purple = 4,
+  Brown = 5,
 }
 
 export {Color};
