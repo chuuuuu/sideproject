@@ -39,7 +39,7 @@ const About = (): JSX.Element => {
     return <div>Error</div>;
   }
 
-  const {user, setUser} = context;
+  const {user} = context;
   return (
     <div>
       <div>About</div>
