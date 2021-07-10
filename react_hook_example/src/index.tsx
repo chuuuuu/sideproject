@@ -3,16 +3,39 @@ import ReactDOM from "react-dom";
 import UseStateExample from "./useState/UseStateExample";
 import UseEffectExample from "./useEffect/UseEffectExample";
 import UseRefExample from "./useRef/UseRefExample";
+import UseLayoutEffectExample from "./useLayoutEffect/UseLayoutEffectExample";
+import UseCallbackExample from "./useCallback/UseCallbackExample";
+import UseMemoExample from "./useMemo/UseMemoExample";
+import UseReducerExample from "./useReducer/UseReducerExample";
+import UseContextExample from "./useContext/UseContextExample";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <div>
-    -----------------------------------------------useState-----------------------------------------------
+    <h1>useState</h1>
     <UseStateExample/>
-    -----------------------------------------------useEffect-----------------------------------------------
+
+    <h1>useEffect</h1>
     <UseEffectExample/>
-    -----------------------------------------------useRef-----------------------------------------------
+
+    <h1>useRef</h1>
     <UseRefExample/>
+
+    <h1>useLayoutEffect</h1>
+    <UseLayoutEffectExample/>
+
+    <h1>useCallback</h1>
+    <UseCallbackExample/>
+
+    <h1>useMemo</h1>
+    <UseMemoExample/>
+
+    <h1>useReducer</h1>
+    <UseReducerExample/>
+
+    <h1>useContext</h1>
+    <UseContextExample/>
+
   </div>,
   document.getElementById("root")
 );
