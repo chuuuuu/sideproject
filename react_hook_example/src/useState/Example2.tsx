@@ -6,8 +6,8 @@ const Example2 = (): JSX.Element=>{
 
   return (
     <div>
-      <input name="email" value={email} onChange={e=>{setEmail(e.target.value);}}/>
-      <input name="password" type="password" value={password} onChange={e=>{setPassword(e.target.value);}}/>
+      <input name="email" value={email} onChange={e=>{setEmail(e.target.value);}} placeholder="email"/>
+      <input name="password" type="password" value={password} onChange={e=>{setPassword(e.target.value);}} placeholder="password"/>
     </div>
   );
 };

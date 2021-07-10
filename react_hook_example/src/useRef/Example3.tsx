@@ -1,29 +1,43 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 
 type State = {
   data: null | string,
   loading: boolean,
 };
 
-// custom hook
+// if you delete the component before setState, it will give you a warn
+// "Can't perform a React state update on an unmounted component."
 const useFetch = (url: string): State => {
+  const isCurrent = useRef(true);
   const [state, setState] = useState<State>({data: null, loading: true});
 
-  // you cannot use async directly here, since async function would return Promise which is the type accepted by useEffect
-  // be careful that you should not put state into dependency list or you might have an infinite loop
+  useEffect(()=>{
+    return ()=>{
+      // called when the component is going to unmount
+      isCurrent.current = false;
+    };
+  }, []);
+
   useEffect(() => {
     setState({data: state.data, loading: true});
     fetch(url)
       .then(x => x.text())
       .then(x => {
-        setState({data: x, loading: false});
+        setTimeout(()=>{
+          if(isCurrent.current){
+            setState({data: x, loading: false});
+          }
+          else{
+            console.log("example3 sucess");
+          }
+        }, 2000);
       });
   }, [url]);
 
   return state;
 };
 
-const Example4 = (): JSX.Element => {
+const Example3 = (): JSX.Element => {
   const [count, setCount] = useState<number>(()=>JSON.parse(localStorage.getItem("count") || "0"));
   const url = `http://numbersapi.com/${count}/trivia`;
   const {data, loading} = useFetch(url);
@@ -40,4 +54,4 @@ const Example4 = (): JSX.Element => {
   );
 };
 
-export default Example4;
+export default Example3;

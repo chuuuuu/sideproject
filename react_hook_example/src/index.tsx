@@ -2,18 +2,18 @@ import React from "react";
 import ReactDOM from "react-dom";
 import UseStateExample from "./useState/UseStateExample";
 import UseEffectExample from "./useEffect/UseEffectExample";
-import UseRefExample from "./UseRefExample";
+import UseRefExample from "./useRef/UseRefExample";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
-  <React.StrictMode>
+  <div>
     -----------------------------------------------useState-----------------------------------------------
     <UseStateExample/>
     -----------------------------------------------useEffect-----------------------------------------------
     <UseEffectExample/>
     -----------------------------------------------useRef-----------------------------------------------
     <UseRefExample/>
-  </React.StrictMode>,
+  </div>,
   document.getElementById("root")
 );
 
