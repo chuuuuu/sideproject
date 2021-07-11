@@ -1,0 +1,22 @@
+{
+  "name": "fullstack_tutorial",
+  "version": "1.0.0",
+  "description": "this is a practice follow by the tutorial released by Ben Awad [link](https://www.youtube.com/watch?v=I6ypD7qv3Z8&t=9814s)",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start_ts": "ts-node src/index.ts",
+    "start": "node dist/index.js",
+    "watch": "tsc -w",
+    "dev_ts": "nodemon --exec ts-node src/index.ts",
+    "dev": "nodemon dist/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^16.3.1",
+    "nodemon": "^2.0.12",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
+  }
+}
