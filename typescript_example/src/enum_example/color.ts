@@ -6,4 +6,5 @@ enum Color {
   Brown = 5,
 }
 
-export {Color};
+console.log(Color.Red);
+console.log(Color);

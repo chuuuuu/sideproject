@@ -35,7 +35,8 @@ class Point {
   set y(y: number){
     this._y = y;
   }
-
 }
 
-export {Point};
+const p1 = new Point(100, 123);
+const p2 = new Point(200, 555);
+p1.get_distance(p2);
