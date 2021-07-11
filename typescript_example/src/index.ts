@@ -1,5 +1,5 @@
-import {Point} from "./point.js";
-import {Color} from "./color.js";
+import {Point} from "./point";
+import {Color} from "./color";
 
 const p1 = new Point(100, 123);
 const p2 = new Point(200, 555);
