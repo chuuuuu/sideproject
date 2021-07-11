@@ -60,3 +60,36 @@ Or you can simply run
 ```
 nodemon --exec ts-node src/index.ts
 ```
+
+## MikroORM Setup
+TypeScript ORM for Node.js based on Data Mapper, Unit of Work and Identity Map patterns.
+
+### PostgreSQL
+The World's Most Advanced Open Source Relational Database.
+
+To install postgresql, you can run
+```
+brew install postgresql
+```
+
+To use `Postgres.app`, a beautiful user interface, you can download it from this [site](https://postgresapp.com).
+
+After finishing the installation of `Postgres.app`, you can click on the `Initialize` button. Then, your postgresql server will start.
+
+### packages
+- `@mikro-orm/cli`
+- `@mikro-orm/core`
+- `@mikro-orm/migrations`: migrations is like the github of database which is used for version control
+- `@mikro-orm/postgresql`
+- `pg`: Non-blocking PostgreSQL client for Node.js. Pure JavaScript and optional native libpq bindings.
+
+To install them, you can run
+```
+npm install --save @mikro-orm/cli @mikro-orm/core @mikro-orm/migrations @mikro-orm/postgresql pg
+```
+
+### scripts
+To create a database, you can run
+```
+createdb lireddit
+```
