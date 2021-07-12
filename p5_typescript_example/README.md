@@ -1,2 +1,6 @@
-# typescript p5 template
-this is a typescript p5 template
+
+# P5 TypeScript Starter
+This is the p5 typescript template
+
+## Reference
+- https://github.com/Gaweph/p5-typescript-starter
