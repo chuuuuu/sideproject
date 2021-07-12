@@ -93,3 +93,20 @@ To create a database, you can run
 ```
 createdb lireddit
 ```
+
+## Apollo Server Express Setup
+
+### packages
+- `express`: Fast, unopinionated, minimalist web framework for node.
+- `@types/express`
+- `apollo-server-express`: Apollo Server is a community-maintained open-source GraphQL server that works with many Node.js HTTP server frameworks. 
+- `graphql`: GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data.
+- `type-graphql`
+
+To install those package you can run
+```
+npm install --save express @types/express apollo-server-express graphql type-graphql
+```
+
+### apolloServer
+after you start you apolloServer, you can go to the graphql playground
