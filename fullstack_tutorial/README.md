@@ -110,3 +110,13 @@ npm install --save express @types/express apollo-server-express graphql type-gra
 
 ### apolloServer
 after you start you apolloServer, you can go to the graphql playground
+
+## MikroORM TypeGraphQL CRUD
+In this part, we create a post resolver. Also, we implement the CRUD of post. You can simply visit `http://localhost:{port}/graphql`, and look at the schema and docs. Then you can write some query to interact with the database.
+
+#### CRUD
+- C: Create
+- R: Read
+- U: Update
+- D: Delete
+
