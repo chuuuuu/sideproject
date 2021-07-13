@@ -136,3 +136,27 @@ or you can run the nodejs code
 ```
 await migrator.createMigration();
 ```
+
+## Login Resolver
+In this section, we use `ObjectType` to define `FieldError` and `UserResponse`
+```
+@ObjectType()
+class FieldError {
+  @Field()
+  field: string;
+  @Field()
+  message: string;
+}
+
+@ObjectType()
+class UserResponse {
+  @Field(() => [FieldError], { nullable: true })
+  errors?: FieldError[];
+
+  @Field(() => User, { nullable: true })
+  user?: User;
+}
+```
+
+Then, we can use send the error message in the `[FieldError]` of  `UserResponse` if there's invalid manipulation.
+
