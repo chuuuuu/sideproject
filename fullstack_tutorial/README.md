@@ -115,10 +115,10 @@ after you start you apolloServer, you can go to the graphql playground
 In this part, we create a post resolver. Also, we implement the CRUD of post. You can simply visit `http://localhost:{port}/graphql`, and look at the schema and docs. Then you can write some query to interact with the database.
 
 #### CRUD
-- C: Create
-- R: Read
-- U: Update
-- D: Delete
+- `C`: Create
+- `R`: Read
+- `U`: Update
+- `D`: Delete
 
 ## Register Resolver
 In this part, we create a User entity, and a new migration to record the changes of database. After that, we create a user resolver which provide the register function. 
@@ -160,3 +160,59 @@ class UserResponse {
 
 Then, we can use send the error message in the `[FieldError]` of  `UserResponse` if there's invalid manipulation.
 
+## Session Authentication
+In this section, we use session.userId to identify if a user is authenticated
+
+### packages
+- `redis`: A high performance Node.js Redis client.
+- `connect-redis`: provides Redis session storage for Express.
+- `express-session`: Create a session middleware with the given options.
+- `@types/redis`
+- `@types/express-session`
+- `@types/connect-redis`
+
+```
+npm install --save redis connect-redis express-session @types/redis @types/express-session @types/connect-redis
+```
+
+### redis
+Redis is an open source (BSD licensed), in-memory data structure store, used as a database, cache, and message broker.
+
+You can follow the instruction in the official website to install & execute redis on your computer.
+
+see more [https://redis.io/download](https://redis.io/download)
+
+To run your redis server, you should run
+```
+src/redis-server
+```
+
+### intersection type
+`&` appears to be an intersection type literal. A value of an intersection type A & B is a value that is both of type A and type B. 
+```
+interface A { a: number }  
+interface B { b: number }
+
+var ab: A & B = { a: 1, b: 1 };  
+var a: A = ab;  // A & B assignable to A  
+var b: B = ab;  // A & B assignable to B
+```
+- reference: https://stackoverflow.com/questions/33875609/typescript-operator
+
+In this section, we re-define the `MyContext` type, with operator `&`. 
+
+```
+export type MyContext = {
+  em: EntityManager<any> & EntityManager<IDatabaseDriver<Connection>>;
+  req: Request & { session: Session & { userId?: number } };
+  res: Response;
+};
+```
+
+### scripts
+follow the steps to see if you are logging
+1. set `"request.credentials"` to `"include"` in graphql UI setting
+2. press `option` + `command` + `c` to open development tool
+3. open `Application` -> `Storage` -> `Cookies`
+
+now, you can see the session data store by server
