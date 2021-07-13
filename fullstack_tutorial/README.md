@@ -120,3 +120,19 @@ In this part, we create a post resolver. Also, we implement the CRUD of post. Yo
 - U: Update
 - D: Delete
 
+## Register Resolver
+In this part, we create a User entity, and a new migration to record the changes of database. After that, we create a user resolver which provide the register function. 
+
+### packages
+- argon2: Argon2 is a password-hashing function that summarizes the state of the art in the design of memory-hard functions and can be used to hash passwords for credential storage, key derivation, or other applications.
+
+### script
+to create migration file, you can simply run
+```
+mikro-orm migration:create
+```
+
+or you can run the nodejs code
+```
+await migrator.createMigration();
+```

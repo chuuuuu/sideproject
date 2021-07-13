@@ -6,6 +6,7 @@ import { MyContext } from "../types";
 export class PostResolver {
   @Query(() => [Post])
   posts(@Ctx() { em }: MyContext): Promise<Post[]> {
+    // select all posts in the post table
     return em.find(Post, {});
   }
 
@@ -19,7 +20,12 @@ export class PostResolver {
     @Arg("title") title: string,
     @Ctx() { em }: MyContext
   ): Promise<Post> {
+
+    // it only create an instance, nothing related to database
     const post = em.create(Post, { title });
+
+    // you can find the usage of function from official docs
+    // https://mikro-orm.io/docs/repositories-api/#persistandflushentity-anyentity--anyentity-promisevoid
     await em.persistAndFlush(post);
     return post;
   }
