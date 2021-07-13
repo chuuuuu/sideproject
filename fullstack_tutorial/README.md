@@ -216,3 +216,14 @@ follow the steps to see if you are logging
 3. open `Application` -> `Storage` -> `Cookies`
 
 now, you can see the session data store by server
+
+## Session
+how session works in this project?
+1. after setting `req.session.userId = user.id;`, server will send `{ userId: user.id }` to redis
+2. redis will store the data with a key, `sess:qwoeiuowqjoqjw`
+3. redis send the key back to server
+4. `express-session` will set a cookie on the client's browser `qwoieu9012798quw9euoe1i2uo`
+5. when user makes a request sent cookie `qwoieu9012798quw9euoe1i2uo` to the server
+6. server decrypts the cookie `qwoieu9012798quw9euoe1i2uo` into session key `sess:qwoeiuowqjoqjw`
+7. server makes a request with key to redis
+8. redis gives `{ userId: user.id }` back to server
