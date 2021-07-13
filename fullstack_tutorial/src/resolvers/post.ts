@@ -20,7 +20,6 @@ export class PostResolver {
     @Arg("title") title: string,
     @Ctx() { em }: MyContext
   ): Promise<Post> {
-
     // it only create an instance, nothing related to database
     const post = em.create(Post, { title });
 
