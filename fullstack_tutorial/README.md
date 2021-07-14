@@ -282,4 +282,29 @@ To start the development mode, using
 npm run dev
 ```
 
+## URQL Basics
+### packages
+- client-side packages
+  - `urql`: The highly customizable and versatile GraphQL client for React, Svelte, Vue, or plain JavaScript, with which you add on features like normalized caching as you grow.
+  - `graphql`
+- server-side packages
+  - `cors`: CORS is a node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.
+  - `@types/cors`
 
+To install the packages, run
+```shell
+# in client folder
+npm install --save urql graphql
+
+# in server folder
+npm install --save cors @types/cors
+```
+
+### CORS (Cross-Origin Resource Sharing)
+When you access to server directly, you probably would get this error message
+
+```
+Access to fetch at `http://localhost:4000/graphql` from origin `http://localhost:3000` has been blocked by CORS policy: Response to preflight request doesn't pass access control check: The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
+```
+
+and you can solve this problem by set `cors: { origin: "http://localhost:3000", credentials: true },` in the middleware
