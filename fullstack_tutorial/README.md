@@ -308,3 +308,72 @@ Access to fetch at `http://localhost:4000/graphql` from origin `http://localhost
 ```
 
 and you can solve this problem by set `cors: { origin: "http://localhost:3000", credentials: true },` in the middleware
+
+## GraphQL Code Generator
+`graphql-codegen` will generate a custom hook with well-defined types. Hence, you can write code with auto-suggestion, and make less mistake
+
+### packages
+- `@graphql-codegen/cli`: Generate code from your GraphQL schema and operations with a simple CLI
+
+To install it, run
+```
+npm install --save-dev @graphql-codegen/cli
+```
+
+### scripts
+To initialize `graphql-codegen`, there few steps to do
+#### step 1
+run the script
+```
+npx graphql-codegen init
+```
+
+#### step 2
+fill up the configuration
+```
+    Welcome to GraphQL Code Generator!
+    Answer few questions and we will setup everything for you.
+  
+? What type of application are you building?
+> Application built with React
+? Where is your schema?: (path or url)
+> http://localhost:4000/graphql
+? Where are your operations and fragments?:
+> src/graphql/**/*.graphql
+? Pick plugins:
+> TypeScript (required by other typescript plugins), TypeScript Ope
+rations (operations and fragments), TypeScript React Apollo (typed components and
+ HOCs)
+? Where to write the output:
+> src/generated/graphql.tsx
+? Do you want to generate an introspection file?
+> No
+? How to name the config file?
+> codegen.yml
+? What script in package.json should run the codegen?
+> gen
+Fetching latest versions of selected plugins...
+
+    Config file generated at codegen.yml
+    
+      $ npm install
+
+    To install the plugins.
+
+      $ npm run gen
+
+    To run GraphQL Code Generator.
+```
+after initialization, there's a `codegen.yml` file in the client folder
+
+#### step 3
+since we are using `typescript-urql`, but not `typescript-react-apollo`, we will do some slight changes
+
+- modify `typescript-react-apollo` to `typescript-urql` in `codegen.yml`
+- delete the package `"@graphql-codegen/typescript-react-apollo"` in `package.json`
+
+#### step 4
+install the package `@graphql-codegen/typescript-urql` by running
+```
+npm install --save-dev @graphql-codegen/typescript-urql
+````
