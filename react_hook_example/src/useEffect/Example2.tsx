@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 
-const Example2 = (): JSX.Element=>{
+export const Example2: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -20,10 +20,21 @@ const Example2 = (): JSX.Element=>{
 
   return (
     <div>
-      <input name="email" value={email} onChange={e=>{setEmail(e.target.value);}}/>
-      <input name="password" type="password" value={password} onChange={e=>{setPassword(e.target.value);}}/>
+      <input
+        name="email"
+        value={email}
+        onChange={(e) => {
+          setEmail(e.target.value);
+        }}
+      />
+      <input
+        name="password"
+        type="password"
+        value={password}
+        onChange={(e) => {
+          setPassword(e.target.value);
+        }}
+      />
     </div>
   );
 };
-
-export default Example2;

@@ -1,7 +1,7 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 
 // example1 is without DependencyList, hence the unmounting function will be called for every render.
-const Example1 = (): JSX.Element=>{
+export const Example1: React.FC = () => {
   // pass the mounting function
   useEffect(() => {
     console.log("mounting Example1...");
@@ -11,9 +11,5 @@ const Example1 = (): JSX.Element=>{
     };
   });
 
-  return (
-    <div>look at the console</div>
-  );
+  return <div>look at the console</div>;
 };
-
-export default Example1;

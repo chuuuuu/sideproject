@@ -1,27 +1,27 @@
-import React, {useEffect, useState, useRef, useLayoutEffect} from "react";
+import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 
 type State = {
-  data: null | string,
-  loading: boolean,
+  data: null | string;
+  loading: boolean;
 };
 
 const useFetch = (url: string): State => {
   const isCurrent = useRef(true);
-  const [state, setState] = useState<State>({data: null, loading: true});
+  const [state, setState] = useState<State>({ data: null, loading: true });
 
-  useEffect(()=>{
-    return ()=>{
+  useEffect(() => {
+    return () => {
       isCurrent.current = false;
     };
   }, []);
 
   useEffect(() => {
-    setState({data: state.data, loading: true});
+    setState({ data: state.data, loading: true });
     fetch(url)
-      .then(x => x.text())
-      .then(x => {
-        if(isCurrent.current){
-          setState({data: x, loading: false});
+      .then((x) => x.text())
+      .then((x) => {
+        if (isCurrent.current) {
+          setState({ data: x, loading: false });
         }
       });
   }, [url]);
@@ -29,28 +29,31 @@ const useFetch = (url: string): State => {
   return state;
 };
 
-type UseMeasureReturn<T extends HTMLElement> = [
-  React.RefObject<T>,
-  DOMRect | null | undefined,
-]
+type UseMeasureType<T extends HTMLElement> = [React.RefObject<T>, DOMRect | null | undefined];
 
 // in tsx you cannot just write <T>
-// you have to write <T, > 
-const useMeasure = <T extends HTMLElement, >(deps: React.DependencyList | undefined): UseMeasureReturn<T> => {
-  const [rect, setRect] = useState<DOMRect|null|undefined>(null);
+// you have to write <T, >
+const useMeasure = <T extends HTMLElement>(
+  deps: React.DependencyList | undefined
+): UseMeasureType<T> => {
+  const [rect, setRect] = useState<DOMRect | null | undefined>(null);
   const myRef = useRef<T>(null);
 
-  useLayoutEffect(()=>{
-    setRect(myRef.current?.getBoundingClientRect());
+  useLayoutEffect(() => {
+    if(myRef.current){
+      setRect(myRef.current.getBoundingClientRect());
+    }
   }, deps);
 
   return [myRef, rect];
 };
 
-const Example2 = (): JSX.Element => {
-  const [count, setCount] = useState<number>(()=>JSON.parse(localStorage.getItem("count") || "0"));
+export const Example2 = (): JSX.Element => {
+  const [count, setCount] = useState<number>(() =>
+    JSON.parse(localStorage.getItem("count") || "0")
+  );
   const url = `http://numbersapi.com/${count}/trivia`;
-  const {data, loading} = useFetch(url);
+  const { data, loading } = useFetch(url);
 
   useEffect(() => {
     localStorage.setItem("count", JSON.stringify(count));
@@ -60,13 +63,11 @@ const Example2 = (): JSX.Element => {
 
   return (
     <div>
-      <div style={{display: "flex"}}>
-        <div ref={divRef}>{loading? "loading..." : data}</div>
+      <div style={{ display: "flex" }}>
+        <div ref={divRef}>{loading ? "loading..." : data}</div>
       </div>
-      <button onClick={() => setCount(count+1)}>+</button >
+      <button onClick={() => setCount(count + 1)}>+</button>
       <pre>{JSON.stringify(rect, null, 2)}</pre>
     </div>
   );
 };
-
-export default Example2;

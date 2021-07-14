@@ -1,15 +1,28 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
-const Example2 = (): JSX.Element=>{
+export const Example2: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   return (
     <div>
-      <input name="email" value={email} onChange={e=>{setEmail(e.target.value);}} placeholder="email"/>
-      <input name="password" type="password" value={password} onChange={e=>{setPassword(e.target.value);}} placeholder="password"/>
+      <input
+        name="email"
+        value={email}
+        onChange={(e) => {
+          setEmail(e.target.value);
+        }}
+        placeholder="email"
+      />
+      <input
+        name="password"
+        type="password"
+        value={password}
+        onChange={(e) => {
+          setPassword(e.target.value);
+        }}
+        placeholder="password"
+      />
     </div>
   );
 };
-
-export default Example2;

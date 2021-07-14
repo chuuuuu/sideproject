@@ -41,7 +41,7 @@ const computeLongesetWord = (data: Data)=>{
 };
 
 // you can use useMemo only when you feeling slowly
-const Example1 = (): JSX.Element => {
+export const Example1: React.FC = () => {
   const [count, setCount] = useState(0);
 
   const url = "https://raw.githubusercontent.com/ajzbc/kanye.rest/master/quotes.json";
@@ -57,5 +57,3 @@ const Example1 = (): JSX.Element => {
     </div>
   );
 };
-
-export default Example1;

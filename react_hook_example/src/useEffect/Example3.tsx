@@ -1,8 +1,8 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 
-// example3 is depends on [], which means that 
+// example3 is depends on [], which means that
 // the mounting function and the unmounting function will be called only once
-const Example3 = (): JSX.Element=>{
+export const Example3: React.FC = () => {
   useEffect(() => {
     const onMouseMove = (e: MouseEvent) => {
       console.log(e);
@@ -14,9 +14,5 @@ const Example3 = (): JSX.Element=>{
     };
   }, []);
 
-  return (
-    <div>move your cursor</div>
-  );
+  return <div>move your cursor</div>;
 };
-
-export default Example3;

@@ -23,7 +23,7 @@ const useForm = (initialValues: Value): UseFormReturn => {
   ];
 };
 
-const Example3 = (): JSX.Element=>{
+export const Example3: React.FC = ()=>{
   const [values1, handleChange1] = useForm({email: "", password: ""});
   const [values2, handleChange2] = useForm({firstname: "", lastname: ""});
 
@@ -36,5 +36,3 @@ const Example3 = (): JSX.Element=>{
     </div>
   );
 };
-
-export default Example3;

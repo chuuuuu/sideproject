@@ -23,7 +23,7 @@ type State = {
   todoCount: number,
 };
 
-const reducer = (state: State, config: Config) => {
+const reducer = (state: State, config: Config): State => {
   switch(config.type){
   case ACTION.ADD_TODO:
     return {
@@ -48,7 +48,7 @@ const reducer = (state: State, config: Config) => {
 
 // when your state is growing to extremely huge, you might consider other packages such as useImmer
 // https://github.com/immerjs/use-immer
-const Example2 = (): JSX.Element => {
+export const Example2: React.FC = () => {
   const [{todos, todoCount}, dispatch] = useReducer(reducer, {todos: [], todoCount: 0});
   const [text, setText] = useState<string>("");
 
@@ -68,5 +68,3 @@ const Example2 = (): JSX.Element => {
     </div>
   );
 };
-
-export default Example2;

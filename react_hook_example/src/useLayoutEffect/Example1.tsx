@@ -1,14 +1,14 @@
-import React, {useRef, useEffect, useLayoutEffect} from "react";
+import React, { useRef, useEffect, useLayoutEffect } from "react";
 
 // react will compare if the state is changed. if state does not change, it won't render
-const Example1 = (): JSX.Element=>{
+export const Example1: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(inputRef.current?.getBoundingClientRect());
   }, []);
 
-  useLayoutEffect(()=>{
+  useLayoutEffect(() => {
     console.log(inputRef.current?.getBoundingClientRect());
   }, []);
 
@@ -18,5 +18,3 @@ const Example1 = (): JSX.Element=>{
     </div>
   );
 };
-
-export default Example1;

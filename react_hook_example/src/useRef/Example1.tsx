@@ -1,16 +1,18 @@
-import React, {useRef} from "react";
+import React, { useRef } from "react";
 
-const Example1 = (): JSX.Element=>{
+export const Example1: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
     <div>
       <input ref={inputRef}></input>
-      <button onClick={()=>{
-        inputRef.current?.focus();
-      }}>focus</button>
+      <button
+        onClick={() => {
+          inputRef.current?.focus();
+        }}
+      >
+        focus
+      </button>
     </div>
   );
 };
-
-export default Example1;

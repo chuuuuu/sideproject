@@ -1,59 +1,66 @@
-import React, {createContext, useContext, useState, useMemo} from "react";
+import React, { createContext, useContext, useState, useMemo } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 type Context = {
-  user: string | null,
-  setUser: React.Dispatch<React.SetStateAction<string|null>>,
+  user: string | null;
+  setUser: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 const UserContext = createContext<Context | null>(null);
 
-const Index = (): JSX.Element => {
+const Index: React.FC = () => {
   const context = useContext(UserContext);
-  if(!context){
+  if (!context) {
     return <div>Error</div>;
   }
 
-  const {user, setUser} = context;
+  const { user, setUser } = context;
   return (
     <div>
       <div>Home</div>
       <div>{user}</div>
-      {user? (
-        <button onClick={()=>{
-          setUser(null);
-        }
-        }>logout</button>
-      ): (
-        <button onClick={()=>{
-          setUser("Alice");
-        }}>login</button>
+      {user ? (
+        <button
+          onClick={() => {
+            setUser(null);
+          }}
+        >
+          logout
+        </button>
+      ) : (
+        <button
+          onClick={() => {
+            setUser("Alice");
+          }}
+        >
+          login
+        </button>
       )}
     </div>
   );
 };
 
-const About = (): JSX.Element => {
+const About: React.FC = () => {
   const context = useContext(UserContext);
-  if(!context){
+  if (!context) {
     return <div>Error</div>;
   }
 
-  const {user} = context;
+  const { user } = context;
   return (
     <div>
       <div>About</div>
-      <div>{user}</div>  
+      <div>{user}</div>
     </div>
   );
 };
 
-const Example1 = (): JSX.Element => {
-  const [user, setUser] = useState<string|null>(null);
+export const Example1 = (): JSX.Element => {
+  const [user, setUser] = useState<string | null>(null);
 
-  const userMemo = useMemo(() => ({user, setUser}), [user, setUser]);
+  const userMemo = useMemo(() => ({ user, setUser }), [user, setUser]);
 
-  return(
+  return (
     <Router>
       <div>
         <nav>
@@ -67,12 +74,10 @@ const Example1 = (): JSX.Element => {
           </ul>
         </nav>
         <UserContext.Provider value={userMemo}>
-          <Route path="/" exact component={Index}/>
-          <Route path="/about/" component={About}/>
+          <Route path="/" exact component={Index} />
+          <Route path="/about/" component={About} />
         </UserContext.Provider>
       </div>
     </Router>
   );
 };
-
-export default Example1;
