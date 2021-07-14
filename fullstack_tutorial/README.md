@@ -227,3 +227,59 @@ how session works in this project?
 6. server decrypts the cookie `qwoieu9012798quw9euoe1i2uo` into session key `sess:qwoeiuowqjoqjw`
 7. server makes a request with key to redis
 8. redis gives `{ userId: user.id }` back to server
+
+## Next.js + Chakra
+### packages
+- `next`: The React Framework for Production
+- `chakra-ui/react`: Chakra UI is made up of multiple components and tools which you can import one by one.
+- `chakra-ui/icons`: Chakra provides multiple ways to use icons in your project:
+- `formik`: Formik is the world's most popular open source form library for React and React Native.
+
+### Next.js
+Next.js gives you the best developer experience with all the features you need for production: hybrid static & server rendering, TypeScript support, smart bundling, route pre-fetching, and more. No config needed.
+
+#### pages
+In Next.js, a page is a React Component exported from a `.js`, `.jsx`, `.ts`, or `.tsx` file in the pages directory. Each page is associated with a route based on its file name.
+
+Example: If you create `pages/about.js` that exports a React component like below, it will be accessible at `/about`.
+```
+function About() {
+  return <div>About</div>
+}
+
+export default About
+```
+
+#### rendering
+Next.js has two forms of pre-rendering: Static Generation and Server-side Rendering. The difference is in when it generates the HTML for a page.
+
+- `Static Generation (Recommended)`: The HTML is generated at build time and will be reused on each request.
+- `Server-side Rendering`: The HTML is generated on each request
+
+see more [site](https://nextjs.org/docs/basic-features/pages#two-forms-of-pre-rendering)
+
+#### Custom `App`
+Next.js uses the `App` component to initialize pages. You can override it and control the page initialization.
+
+see more [site](https://nextjs.org/docs/advanced-features/custom-app)
+
+#### Custom `Document`
+A custom `Document` is commonly used to augment your application's `<html>` and `<body>` tags. This is necessary because Next.js pages skip the definition of the surrounding document's markup.
+
+see more [site](https://nextjs.org/docs/advanced-features/custom-document)
+
+### Chakra
+Chakra UI is a simple, modular and accessible component library that gives you the building blocks you need to build your React applications.
+
+### scripts
+To create a next project with chakra, you can use
+```
+npx create-next-app --example with-chakra-ui {projectName}
+```
+
+To start the development mode, using
+```
+npm run dev
+```
+
+
