@@ -1,5 +1,5 @@
 # FullStack Tutorial
-This is a practice followed by the tutorial released by Ben Awad [link](https://www.youtube.com/watch?v=I6ypD7qv3Z8&t=9814s)
+This is a practice followed by the tutorial released by Ben Awad [link](https://www.youtube.com/watch?v=I6ypD7qv3Z8)
 
 ## NPM
 - `dependencies`: Packages required by your application in production.
@@ -376,4 +376,10 @@ since we are using `typescript-urql`, but not `typescript-react-apollo`, we will
 install the package `@graphql-codegen/typescript-urql` by running
 ```
 npm install --save-dev @graphql-codegen/typescript-urql
-````
+```
+
+## Register Error Handling
+In this part, we are dealing with error of register
+
+### some notes
+To make sure compiler is checking wheather you have put `?` behind your possibly undefined object, set `"strict": true` in `tsconfig.json`
