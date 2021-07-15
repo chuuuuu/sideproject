@@ -383,3 +383,6 @@ In this part, we are dealing with error of register
 
 ### some notes
 To make sure compiler is checking wheather you have put `?` behind your possibly undefined object, set `"strict": true` in `tsconfig.json`
+
+## Navbar
+In this part, we build a navbar.
