@@ -386,3 +386,30 @@ To make sure compiler is checking wheather you have put `?` behind your possibly
 
 ## Navbar
 In this part, we build a navbar.
+
+## URQL Cache Updates
+`urql` using document cache by default. With `Document Caching`, our me-query will use cached data after we register or logged in. As a result, data of me-query will be `null`. In this part, we solve this problem with `Normalized Caching`
+
+### packages
+- `@urql/exchange-graphcache`: The `@urql/exchange-graphcache` package contains an addon cacheExchange for urql that may be used to replace the default `cacheExchange`, which switches `urql` from using `"Document Caching"` to `"Normalized Caching"`.
+
+To install this package, run
+```
+npm install --save @urql/exchange-graphcache
+```
+
+### Document Caching
+By default, urql uses a concept called Document Caching. It will avoid sending the same requests to a GraphQL API repeatedly by caching the result of each query.
+
+see more [link](https://formidable.com/open-source/urql/docs/basics/document-caching/)
+
+### Normalized Caching
+Normalized caches can enable more sophisticated use-cases, where different API requests update data in other parts of the app and automatically update data in our cache as we query our GraphQL API.
+
+see more [link](https://formidable.com/open-source/urql/docs/graphcache/normalized-caching/)
+
+### Fragments
+GraphQL includes reusable units called fragments. Fragments let you construct sets of fields, and then include them in queries where you need to.
+
+see more [link](https://graphql.org/learn/queries/)
+
