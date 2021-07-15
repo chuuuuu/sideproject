@@ -1,4 +1,4 @@
-import { PROD } from "./config";
+import { COOKIE_NAME, PROD } from "./config";
 import { MikroORM } from "@mikro-orm/core";
 import mikroConfig from "./mikro-orm.config";
 import express from "express";
@@ -38,7 +38,7 @@ const main = async () => {
   // session setup
   app.use(
     session({
-      name: "qid",
+      name: COOKIE_NAME,
       store: new RedisStore({
         client: redisClient,
         disableTouch: true,
