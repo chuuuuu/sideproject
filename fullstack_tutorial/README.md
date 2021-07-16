@@ -413,3 +413,26 @@ GraphQL includes reusable units called fragments. Fragments let you construct se
 
 see more [link](https://graphql.org/learn/queries/)
 
+## Next.js URQL SSR
+### packages
+- `next-urql`: A set of convenience utilities for using urql with NextJS.
+- `react-is`: This package allows you to test arbitrary values and see if they're a particular React element type.
+
+To install those packages, run
+```
+npm install --save next-urql react-is
+```
+
+### server-side-rendering
+how ssr works:
+1. user browse (http://localhost:3000)
+2. send request to next.js server
+3. next.js server send request graphql server (http://localhost:4000)
+4. building HTML
+5. sending back to your browser
+
+#### some notes
+- one of the most important reason to use ssr is to be searched by google
+- if you visit non-ssr page first (in this example, login or register page), next server wont do ssr for you, even if you visit ssr page later (in this example, index page).
+- next server wont know your cookie, hence we can cancel the query related to cookie when using ssr
+- to determine if ssr, check on `typeof window`
