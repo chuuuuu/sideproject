@@ -1,4 +1,4 @@
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, Flex, Link } from "@chakra-ui/react";
 import { Formik, Form } from "formik";
 import { InputField } from "../components/InputField";
 import { Wrapper } from "../components/Wrapper";
@@ -7,6 +7,8 @@ import { toErrorMap } from "../utils/toErrorMap";
 import { useRouter } from "next/router";
 import { createUrqlClient } from "../utils/createUrqlClient";
 import { withUrqlClient } from "next-urql";
+import NextLink from "next/link";
+import React from "react";
 
 interface loginProps {}
 
@@ -17,9 +19,9 @@ const Login: React.FC<loginProps> = () => {
     <Wrapper variant="small">
       {/* Formik eats render props, which means Formik will call children() */}
       <Formik
-        initialValues={{ username: "", password: "" }}
+        initialValues={{ usernameOrEmail: "", password: "" }}
         onSubmit={async (values, { setErrors }) => {
-          const response = await login({ options: values });
+          const response = await login(values);
           if (response.data?.login.errors) {
             setErrors(toErrorMap(response.data.login.errors));
           } else if (response.data?.login.user) {
@@ -31,9 +33,9 @@ const Login: React.FC<loginProps> = () => {
         {({ isSubmitting }) => (
           <Form>
             <InputField
-              name="username"
-              placeholder="username"
-              label="Username"
+              name="usernameOrEmail"
+              placeholder="username or email"
+              label="Username or Email"
             />
             <Box mt={4}>
               <InputField
@@ -44,13 +46,19 @@ const Login: React.FC<loginProps> = () => {
               />
             </Box>
 
+            <Flex mt={2}>
+              <NextLink href="/forget-password">
+                <Link ml="auto">forget password?</Link>
+              </NextLink>
+            </Flex>
+
             <Button
               mt={4}
               type="submit"
               isLoading={isSubmitting}
               colorScheme="teal"
             >
-              register
+              login
             </Button>
           </Form>
         )}

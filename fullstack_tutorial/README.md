@@ -436,3 +436,26 @@ how ssr works:
 - if you visit non-ssr page first (in this example, login or register page), next server wont do ssr for you, even if you visit ssr page later (in this example, index page).
 - next server wont know your cookie, hence we can cancel the query related to cookie when using ssr
 - to determine if ssr, check on `typeof window`
+
+## Forgot Password
+In this part, we using email to help user reset their password
+
+### packages
+- nodemailer
+- @types/nodemailer
+- uuid
+- ioredis: A robust, performance-focused and full-featured Redis client for Node.js.
+
+To install them, run
+```shell
+npm install --save nodemailer uuid ioredis
+npm install --save-dev @types/uuid @types/ioredis @types/nodemailer
+
+# we are using ioredis as redis client now.
+npm remove redis @types/redis
+```
+
+### notes
+- redis is hard to use, ioredis is easily to use
+- nextjs convention: if you want to add variable in your url, use `[]` to quote your variable
+  - e.g. `[token].tsx`
