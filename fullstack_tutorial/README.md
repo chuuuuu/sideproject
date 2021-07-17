@@ -459,3 +459,18 @@ npm remove redis @types/redis
 - redis is hard to use, ioredis is easily to use
 - nextjs convention: if you want to add variable in your url, use `[]` to quote your variable
   - e.g. `[token].tsx`
+
+## TypeOrm
+since it is more convinence to use typeorm than mikro-orm, we switch to typeorm
+
+### packages
+- typeorm
+
+```
+npm install --save typeorm
+```
+
+also you can uninstall mikro-orm now
+
+### notes
+we need reflect-metadata to run typeorm

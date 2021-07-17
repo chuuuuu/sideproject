@@ -1,6 +1,6 @@
+// type-orm need reflect-metadata
+import "reflect-metadata";
 import { COOKIE_NAME, PROD } from "./config";
-import { MikroORM } from "@mikro-orm/core";
-import mikroConfig from "./mikro-orm.config";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
@@ -12,13 +12,23 @@ import session from "express-session";
 import connectRedis from "connect-redis";
 import { MyContext } from "./types";
 import cors from "cors";
+import { createConnection } from "typeorm";
+import { Post } from "./entities/Post";
+import { User } from "./entities/User";
 
 const main = async () => {
   // database setup
-  const orm = await MikroORM.init(mikroConfig);
-  const migrator = orm.getMigrator();
-  await migrator.createMigration();
-  await migrator.up();
+  // const conn = 
+  await createConnection({
+    type: "postgres",
+    database: "lireddit2",
+    username: "postgres",
+    password: "postgres",
+    logging: true,
+    entities: [Post, User],
+    // with this, you dont need to run migration
+    synchronize: true,
+  });
 
   // server setup
   const app = express();
@@ -61,7 +71,7 @@ const main = async () => {
       resolvers: [HelloResolver, PostResolver, UserResolver],
       validate: false,
     }),
-    context: ({ req, res }): MyContext => ({ em: orm.em, req, res, redis }),
+    context: ({ req, res }): MyContext => ({ req, res, redis }),
   });
 
   apolloServer.applyMiddleware({

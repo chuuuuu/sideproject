@@ -40,7 +40,7 @@ export class UserResolver {
   async changePassword(
     @Arg("token") token: string,
     @Arg("newPassword") newPassword: string,
-    @Ctx() { redis, em, req }: MyContext
+    @Ctx() { redis, req }: MyContext
   ): Promise<UserResponse> {
     if (newPassword.length <= 2) {
       return {
@@ -53,7 +53,7 @@ export class UserResolver {
       };
     }
 
-    const key = FORGET_PASSWARD_PREFIX + token
+    const key = FORGET_PASSWARD_PREFIX + token;
     const userId = await redis.get(key);
     if (!userId) {
       return {
@@ -66,7 +66,8 @@ export class UserResolver {
       };
     }
 
-    const user = await em.findOne(User, { id: parseInt(userId) });
+    const userIdNum = parseInt(userId);
+    const user = await User.findOne(userIdNum);
 
     if (!user) {
       return {
@@ -79,8 +80,10 @@ export class UserResolver {
       };
     }
 
-    user.password = await argon2.hash(newPassword);
-    await em.persistAndFlush(user);
+    User.update(
+      { id: userIdNum },
+      { password: await argon2.hash(newPassword) }
+    );
 
     await redis.del(key);
 
@@ -93,9 +96,9 @@ export class UserResolver {
   @Mutation(() => Boolean)
   async forgetPassword(
     @Arg("email") email: string,
-    @Ctx() { em, redis }: MyContext
+    @Ctx() { redis }: MyContext
   ) {
-    const user = await em.findOne(User, { email });
+    const user = await User.findOne({ where: { email } });
     if (!user) {
       // email is not in the database
       // since people might fishing, we dont want to let poeple know if the email is registered
@@ -119,20 +122,19 @@ export class UserResolver {
   }
 
   @Query(() => User, { nullable: true })
-  async me(@Ctx() { req, em }: MyContext) {
+  me(@Ctx() { req }: MyContext) {
     // you are not logged in
     if (!req.session.userId) {
       return null;
     }
 
-    const user = await em.findOne(User, { id: req.session.userId });
-    return user;
+    return User.findOne(req.session.userId);
   }
 
   @Mutation(() => UserResponse)
   async register(
     @Arg("options") options: UsernamePasswordInput,
-    @Ctx() { em, req }: MyContext
+    @Ctx() { req }: MyContext
   ): Promise<UserResponse> {
     const errors = validateRegister(options);
     if (errors) {
@@ -140,16 +142,15 @@ export class UserResolver {
     }
 
     const hashedPassword = await argon2.hash(options.password);
-    const user = em.create(User, {
+    const user = User.create({
       username: options.username,
       password: hashedPassword,
       email: options.email,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     });
     try {
-      await em.persistAndFlush(user);
+      await user.save();
     } catch (err) {
+      console.log("err: ", err);
       // duplicate username error
       if (err.code === "23505") {
         return {
@@ -175,13 +176,12 @@ export class UserResolver {
   async login(
     @Arg("usernameOrEmail") userNameOrEmail: string,
     @Arg("password") password: string,
-    @Ctx() { em, req }: MyContext
+    @Ctx() { req }: MyContext
   ): Promise<UserResponse> {
-    const user = await em.findOne(
-      User,
+    const user = await User.findOne(
       userNameOrEmail.includes("@")
-        ? { email: userNameOrEmail }
-        : { username: userNameOrEmail }
+        ? { where: { email: userNameOrEmail } }
+        : { where: { username: userNameOrEmail } }
     );
     if (!user) {
       return {
