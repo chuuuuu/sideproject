@@ -11,6 +11,10 @@ export class Message {
     return this.messages[id];
   }
 
+  static findLast() {
+    return this.messages[this.messages.length-1];
+  }
+
   static create(user: string, content: string): number {
     const id = this.messages.length;
     this.messages.push({ id, user, content });
