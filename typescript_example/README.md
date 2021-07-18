@@ -73,3 +73,9 @@ node_modules/eslint/bin/eslint.js .
 
 ## cheat sheet
 https://willh.gitbook.io/typescript-tutorial/advanced
+
+## tsc options
+https://www.typescriptlang.org/docs/handbook/compiler-options.html
+
+## some articles
+[What does the TypeScript “lib” option really do?](https://stackoverflow.com/questions/50986494/what-does-the-typescript-lib-option-really-do)
