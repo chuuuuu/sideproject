@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "google-auth-library": "^7.3.0"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.13",
+    "@types/express-session": "^1.17.4"
+  },
+  "scripts": {
+    "build": "tsc --target es6 --outDir build",
+    "dev": "nodemon --exec ts-node src/index.ts"
+  }
+}
