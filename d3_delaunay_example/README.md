@@ -7,3 +7,8 @@ If you need more examples refer to [site](https://github.com/DefinitelyTyped/Def
 npm run watch
 npm run dev
 ```
+
+## visualization
+```
+browser-sync start --server -f -w
+```

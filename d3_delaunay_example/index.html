@@ -1,0 +1,71 @@
+
+<canvas id="render"></canvas>
+
+<script src="https://cdn.jsdelivr.net/gh/kchapelier/poisson-disk-sampling@2.2.2/build/poisson-disk-sampling.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3-delaunay@6"></script>
+
+<script>
+  const boundary = [500, 500];
+
+  const sampler = new PoissonDiskSampling({
+    shape: boundary,
+    minDistance: 10,
+    maxDistance: 20,
+    tries: 30,
+  });
+
+  const pd_points = sampler.fill();
+  console.log("pd_points", pd_points.length);
+  console.log("pd_points", pd_points);
+
+  const delaunay = d3.Delaunay.from(pd_points);
+  // const {points, halfedges, triangles} = delaunay;
+  // console.log("points", points.length);
+  // console.log("points", points);
+  // console.log("halfedges", halfedges.length);
+  // console.log("halfedges", halfedges);
+  // console.log("triangles", triangles.length);
+  // console.log("triangles", triangles);
+
+  const voronoi = delaunay.voronoi([0, 0, boundary[0], boundary[1]]);
+  // const {circumcenters, vectors} = voronoi;
+
+  var canvas = document.getElementById("render");
+  canvas.width = 500;
+  canvas.height = 500;
+
+  var ctx = canvas.getContext("2d");
+
+  // ctx.fillStyle = "blue";
+  // ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // context.fillStyle = "#FF0000";
+  // context.fillRect(0, 0, 150, 75);
+
+  // const { points, halfedges, triangles } = delaunay;
+  // for (let i = 0, n = halfedges.length; i < n; ++i) {
+  //   const j = halfedges[i];
+  //   if (j < i) continue;
+  //   const ti = triangles[i];
+  //   const tj = triangles[j];
+
+  //   ctx.beginPath();
+  //   ctx.moveTo(points[ti * 2], points[ti * 2 + 1]);
+  //   ctx.lineTo(points[tj * 2], points[tj * 2 + 1]);
+  //   ctx.stroke();
+  // }
+
+  ctx.strokeStyle = "rgb(0,255,0)";
+  delaunay.render(ctx);
+  ctx.stroke();
+
+  ctx.strokeStyle = "rgb(0,0,0)";
+  voronoi.render(ctx);
+  ctx.stroke();
+
+  for(let i=0; i<20; i++){
+    console.log(i);
+    console.log(voronoi.cellPolygon(i));
+  }
+  
+</script>
