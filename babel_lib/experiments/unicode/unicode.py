@@ -11,41 +11,47 @@
 
 import math
 
-def save_uni(uni_min, uni_max, file_name):
-  pad10 = int(math.log10(uni_max))
-  pad16 = int(math.log10(uni_max) / math.log10(16))
 
-  with open(file_name, 'w') as f:
-    for i in range(uni_min, uni_max):
-      idx16 = f'0x{hex(i)[2:].zfill(pad16)}'
-      idx10 = str(i).zfill(pad10)
-      c = chr(i)
-      try:
-        f.write(f'{idx16} {idx10} {c}\n')
-      except UnicodeEncodeError:
-        f.write(f'{idx16} {idx10} error\n')
+def save_uni(uni_min, uni_max, file_name):
+    pad10 = int(math.log10(uni_max))
+    pad16 = int(math.log10(uni_max) / math.log10(16))
+
+    with open(file_name, 'w') as f:
+        for i in range(uni_min, uni_max):
+            idx16 = f'0x{hex(i)[2:].zfill(pad16)}'
+            idx10 = str(i).zfill(pad10)
+            c = chr(i)
+            try:
+                f.write(f'{idx16} {idx10} {c}\n')
+            except UnicodeEncodeError:
+                f.write(f'{idx16} {idx10} error\n')
+
 
 def save_uni_all():
-  uni_min = 0x0
-  uni_max = 0x110000
-  file_name = 'unicode_all'
+    uni_min = 0x0
+    uni_max = 0x110000
+    file_name = 'unicode_all'
 
-  save_uni(uni_min, uni_max, file_name)
+    save_uni(uni_min, uni_max, file_name)
+
 
 def save_uni_common_zh():
-  uni_min = 0x4e00
-  uni_max = 0xa000
-  file_name = 'unicode_common_zh'
+    uni_min = 0x4e00
+    uni_max = 0xa000
+    file_name = 'unicode_common_zh'
 
-  save_uni(uni_min, uni_max, file_name)
+    save_uni(uni_min, uni_max, file_name)
+
 
 def save_uni_rare_zh():
-  uni_min = 0x3400
-  uni_max = 0x4DBF
-  file_name = 'unicode_rare_zh'
+    uni_min = 0x3400
+    uni_max = 0x4DBF
+    file_name = 'unicode_rare_zh'
 
-  save_uni(uni_min, uni_max, file_name)
+    save_uni(uni_min, uni_max, file_name)
 
-save_uni_all()
-# save_uni_common_zh()
-# save_uni_rare_zh()
+
+if __name__ == "__main__":
+    save_uni_all()
+    save_uni_common_zh()
+    save_uni_rare_zh()
