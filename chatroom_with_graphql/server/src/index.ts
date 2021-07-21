@@ -7,9 +7,17 @@ import { MessageResolver } from "./resolvers/message";
 import { createServer } from "http";
 import { SubscriptionServer } from "subscriptions-transport-ws";
 import { execute, subscribe } from "graphql";
+import cors from "cors";
 
 const main = async () => {
   const app = express();
+  app.use(
+    cors({
+      origin: "http://localhost:3000",
+      credentials: true,
+    })
+  );
+
   const httpServer = createServer(app);
   const schema = await buildSchema({
     resolvers: [HelloResolver, MessageResolver],
@@ -21,6 +29,7 @@ const main = async () => {
 
   apolloServer.applyMiddleware({
     app,
+    cors: false,
   });
 
   apolloServer.installSubscriptionHandlers
