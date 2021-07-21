@@ -16,5 +16,9 @@ as the result, react can fast
 
 in fact, developer may write code which is faster than react. however, react is more clean, and more easily to understand and react is also fast enough!
 
+## some reading material
+- [A Complete Guide to useEffect](https://overreacted.io/a-complete-guide-to-useeffect/)
+  - this is a good article which explains how functional component works.
+
 ## reference
 [site](https://www.youtube.com/watch?v=f687hBjwFcM&t=1767s)
