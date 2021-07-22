@@ -52,52 +52,38 @@ class AlphabetManager {
 class Shuffler {
   constructor(
     public shuffleTable: number[],
-    public shuffleTableReverse: Record<string, number>,
-    public blockSize: number
+    public shuffleTableReverse: Record<string, number> // public blockSize: number
   ) {}
 
   shuffle(cypherContent: string) {
     let ret = "";
-    const cypherBlocks = split(cypherContent, this.blockSize);
-    let prevBlock = cypherBlocks[0];
-    for (let i = 1; i < cypherBlocks.length; i++) {
-      const currentBlock = cypherBlocks[i];
-      const key = parseInt(prevBlock + currentBlock, 2);
+    let prevChars = cypherContent.substring(0, 11);
+    for (let i = 11; i < cypherContent.length; i++) {
+      const newChar = cypherContent[i];
+      const key = parseInt(prevChars + newChar, 2);
       const value = this.shuffleTable[key];
-      const blocksAfterShuffle = value
-        .toString(2)
-        .padStart(this.blockSize * 2, "0");
-      const [firstBlock, secondBlock] = split(
-        blocksAfterShuffle,
-        this.blockSize
-      );
-      ret += firstBlock;
-      prevBlock = secondBlock;
+      const stringAfterShuffle = value.toString(2).padStart(12, "0");
+      ret += stringAfterShuffle[0];
+      prevChars = stringAfterShuffle.substring(1, 12);
     }
-    ret += prevBlock;
+    ret += prevChars;
 
     return ret;
   }
 
   deshuffle(cypherAddress: string) {
     let ret = "";
-    const cypherBlocks = split(cypherAddress, this.blockSize).reverse();
-    let prevBlock = cypherBlocks[0];
-    for (let i = 1; i < cypherBlocks.length; i++) {
-      const currentBlock = cypherBlocks[i];
-      const key = parseInt(currentBlock + prevBlock, 2);
+    cypherAddress = reverse(cypherAddress);
+    let prevChars = reverse(cypherAddress.substring(0, 11));
+    for (let i = 11; i < cypherAddress.length; i++) {
+      const newChar = cypherAddress[i];
+      const key = parseInt(newChar + prevChars, 2);
       const value = this.shuffleTableReverse[key];
-      const blocksAfterShuffle = value
-        .toString(2)
-        .padStart(this.blockSize * 2, "0");
-      const [firstBlock, secondBlock] = split(
-        blocksAfterShuffle,
-        this.blockSize
-      );
-      ret = secondBlock + ret;
-      prevBlock = firstBlock;
+      const stringAfterShuffle = value.toString(2).padStart(12, "0");
+      ret = stringAfterShuffle[11] + ret;
+      prevChars = stringAfterShuffle.substring(0, 11);
     }
-    ret = prevBlock + ret;
+    ret = prevChars + ret;
 
     return ret;
   }
@@ -126,8 +112,8 @@ export class BabelManager {
     JSON.parse(readFileSync(__dirname + "/../db/shuffle_table.json", "utf8")),
     JSON.parse(
       readFileSync(__dirname + "/../db/shuffle_table_reverse.json", "utf8")
-    ),
-    6
+    )
+    // 6
   );
 
   static articleLen = 1500;
@@ -145,7 +131,7 @@ export class BabelManager {
   }
 
   static getAddress(plainContent: string) {
-    const plainContentWithPad = plainContent.padEnd(this.articleLen, "0");
+    const plainContentWithPad = plainContent.padEnd(this.articleLen, " ");
     const cypherContent = this.contentManager.encrypt(plainContentWithPad);
     const cypherAddress = this.encryptCypherContent(cypherContent);
     const plainAddress = this.addressManager.decrypt(cypherAddress);
