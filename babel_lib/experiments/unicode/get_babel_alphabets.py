@@ -35,6 +35,7 @@ if __name__ == "__main__":
     with open("babel_alphabets.json", 'w', encoding="utf-8") as f:
         json.dump(babel_dict, f, ensure_ascii=False)
 
+    # save necessary_alphabets_reverse
     babel_dict_reverse = {}
     for i in range(ALPHABETS_LEN):
         babel_dict_reverse[babel_dict[i]] = i
