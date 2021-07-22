@@ -1,0 +1,3 @@
+query Content($address: String!){
+  content(address: $address)
+}
