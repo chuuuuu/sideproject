@@ -14,9 +14,9 @@ class Response {
 export class ArticleResolver {
   @Query(() => Response)
   getContent(@Arg("address") address: string): Response {
-    if (address.length !== Article.addressLen) {
+    if (address.length > Article.addressLen) {
       return {
-        errors: [`address length must be ${Article.addressLen}`],
+        errors: [`address length must not longer than ${Article.addressLen}`],
       };
     }
 
@@ -25,9 +25,9 @@ export class ArticleResolver {
 
   @Query(() => Response)
   getAddress(@Arg("content") content: string): Response {
-    if (content.length !== Article.contentLen) {
+    if (content.length > Article.contentLen) {
       return {
-        errors: [`content length must be ${Article.contentLen}`],
+        errors: [`content length must not longer than ${Article.contentLen}`],
       };
     }
 

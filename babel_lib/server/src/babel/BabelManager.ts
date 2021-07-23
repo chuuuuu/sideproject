@@ -155,10 +155,18 @@ export class BabelManager {
     cypherContent = this.shuffler1.deshuffle(cypherContent);
     cypherContent = reverse(cypherContent);
     cypherContent = this.shuffler2.shuffle(cypherContent);
+    cypherContent = reverse(cypherContent);
+    cypherContent = this.shuffler1.shuffle(cypherContent);
+    cypherContent = reverse(cypherContent);
+    cypherContent = this.shuffler2.deshuffle(cypherContent);
     return cypherContent;
   }
 
   static decryptCypherContent(cypherAddress: string) {
+    cypherAddress = this.shuffler2.shuffle(cypherAddress);
+    cypherAddress = reverse(cypherAddress);
+    cypherAddress = this.shuffler1.deshuffle(cypherAddress);
+    cypherAddress = reverse(cypherAddress);
     cypherAddress = this.shuffler2.deshuffle(cypherAddress);
     cypherAddress = reverse(cypherAddress);
     cypherAddress = this.shuffler1.shuffle(cypherAddress);

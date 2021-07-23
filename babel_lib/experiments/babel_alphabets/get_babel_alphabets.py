@@ -15,6 +15,7 @@ def get_necessary_alphabets():
     ret = ret.union(set(string.punctuation))
     ret = ret.union(set(string.digits))
     ret = ret.union(set(' '))
+    ret.add("\n")
 
     return ret
 

@@ -16,12 +16,18 @@ const Library: React.FC = () => {
     },
   });
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setAddress(e.target.value);
+  };
+
   const nextAddress = getNextAddress(address);
   const prevAddress = getPrevAddress(address);
 
+  // console.log(data?.getContent.data);
+
   return (
     <Box padding={4}>
-      <Textarea mt={8} value={address} readOnly={true}></Textarea>
+      <Textarea mt={8} value={address} onChange={handleInputChange}></Textarea>
       <Flex>
         {prevAddress ? (
           <Button
@@ -53,7 +59,9 @@ const Library: React.FC = () => {
           </Button>
         )}
       </Flex>
-      <Box mt={4}>{data?.getContent.data}</Box>
+      <Box mt={4} whiteSpace="pre-wrap">
+        {data?.getContent.data}
+      </Box>
     </Box>
   );
 };
