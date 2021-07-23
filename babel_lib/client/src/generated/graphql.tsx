@@ -17,38 +17,50 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   hello: Scalars['String'];
-  content: Scalars['String'];
+  getContent: Response;
+  getAddress: Response;
+};
+
+
+export type QueryGetContentArgs = {
   address: Scalars['String'];
 };
 
 
-export type QueryContentArgs = {
-  address: Scalars['String'];
-};
-
-
-export type QueryAddressArgs = {
+export type QueryGetAddressArgs = {
   content: Scalars['String'];
 };
 
-export type AddressQueryVariables = Exact<{
+export type Response = {
+  __typename?: 'Response';
+  errors?: Maybe<Array<Scalars['String']>>;
+  data?: Maybe<Scalars['String']>;
+};
+
+export type GetAddressQueryVariables = Exact<{
   content: Scalars['String'];
 }>;
 
 
-export type AddressQuery = (
+export type GetAddressQuery = (
   { __typename?: 'Query' }
-  & Pick<Query, 'address'>
+  & { getAddress: (
+    { __typename?: 'Response' }
+    & Pick<Response, 'errors' | 'data'>
+  ) }
 );
 
-export type ContentQueryVariables = Exact<{
+export type GetContentQueryVariables = Exact<{
   address: Scalars['String'];
 }>;
 
 
-export type ContentQuery = (
+export type GetContentQuery = (
   { __typename?: 'Query' }
-  & Pick<Query, 'content'>
+  & { getContent: (
+    { __typename?: 'Response' }
+    & Pick<Response, 'errors' | 'data'>
+  ) }
 );
 
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
@@ -60,23 +72,29 @@ export type HelloQuery = (
 );
 
 
-export const AddressDocument = gql`
-    query Address($content: String!) {
-  address(content: $content)
+export const GetAddressDocument = gql`
+    query GetAddress($content: String!) {
+  getAddress(content: $content) {
+    errors
+    data
+  }
 }
     `;
 
-export function useAddressQuery(options: Omit<Urql.UseQueryArgs<AddressQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<AddressQuery>({ query: AddressDocument, ...options });
+export function useGetAddressQuery(options: Omit<Urql.UseQueryArgs<GetAddressQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<GetAddressQuery>({ query: GetAddressDocument, ...options });
 };
-export const ContentDocument = gql`
-    query Content($address: String!) {
-  content(address: $address)
+export const GetContentDocument = gql`
+    query GetContent($address: String!) {
+  getContent(address: $address) {
+    errors
+    data
+  }
 }
     `;
 
-export function useContentQuery(options: Omit<Urql.UseQueryArgs<ContentQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<ContentQuery>({ query: ContentDocument, ...options });
+export function useGetContentQuery(options: Omit<Urql.UseQueryArgs<GetContentQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<GetContentQuery>({ query: GetContentDocument, ...options });
 };
 export const HelloDocument = gql`
     query Hello {

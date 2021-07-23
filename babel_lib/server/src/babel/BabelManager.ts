@@ -52,38 +52,59 @@ class AlphabetManager {
 class Shuffler {
   constructor(
     public shuffleTable: number[],
-    public shuffleTableReverse: Record<string, number> // public blockSize: number
+    public shuffleTableReverse: Record<string, number>,
+    public initialVector: string,
+    public blockSize: number
   ) {}
 
-  shuffle(cypherContent: string) {
+  xor(str1: string, str2: string): string {
     let ret = "";
-    let prevChars = cypherContent.substring(0, 11);
-    for (let i = 11; i < cypherContent.length; i++) {
-      const newChar = cypherContent[i];
-      const key = parseInt(prevChars + newChar, 2);
-      const value = this.shuffleTable[key];
-      const stringAfterShuffle = value.toString(2).padStart(12, "0");
-      ret += stringAfterShuffle[0];
-      prevChars = stringAfterShuffle.substring(1, 12);
+    for (let i = 0; i < str1.length; i++) {
+      if (str1[i] === str2[i]) ret += "0";
+      else ret += "1";
     }
-    ret += prevChars;
 
+    return ret;
+  }
+
+  private encode(block: string) {
+    const key = parseInt(block, 2);
+    const value = this.shuffleTable[key];
+    return value.toString(2).padStart(this.blockSize, "0");
+  }
+
+  private decode(block: string) {
+    const key = parseInt(block, 2);
+    const value = this.shuffleTableReverse[key];
+    return value.toString(2).padStart(this.blockSize, "0");
+  }
+
+  shuffle(cypherContent: string) {
+    const cypherBlocks = split(cypherContent, this.blockSize);
+    let prevBlock = this.xor(cypherBlocks[0], this.initialVector);
+    prevBlock = this.encode(prevBlock);
+    let ret = prevBlock;
+    for (let i = 1; i < cypherBlocks.length; i++) {
+      prevBlock = this.xor(prevBlock, cypherBlocks[i]);
+      prevBlock = this.encode(prevBlock);
+      ret += prevBlock;
+    }
     return ret;
   }
 
   deshuffle(cypherAddress: string) {
     let ret = "";
-    cypherAddress = reverse(cypherAddress);
-    let prevChars = reverse(cypherAddress.substring(0, 11));
-    for (let i = 11; i < cypherAddress.length; i++) {
-      const newChar = cypherAddress[i];
-      const key = parseInt(newChar + prevChars, 2);
-      const value = this.shuffleTableReverse[key];
-      const stringAfterShuffle = value.toString(2).padStart(12, "0");
-      ret = stringAfterShuffle[11] + ret;
-      prevChars = stringAfterShuffle.substring(0, 11);
+    const cypherBlocks = split(cypherAddress, this.blockSize).reverse();
+    let prevBlock = cypherBlocks[0];
+    for (let i = 1; i < cypherBlocks.length; i++) {
+      prevBlock = this.decode(prevBlock);
+      prevBlock = this.xor(cypherBlocks[i], prevBlock);
+      ret = prevBlock + ret;
+      prevBlock = cypherBlocks[i];
     }
-    ret = prevChars + ret;
+    prevBlock = this.decode(prevBlock);
+    prevBlock = this.xor(prevBlock, this.initialVector);
+    ret = prevBlock + ret;
 
     return ret;
   }
@@ -108,30 +129,44 @@ export class BabelManager {
     5
   );
 
-  static shuffler = new Shuffler(
+  static shuffler1 = new Shuffler(
     JSON.parse(readFileSync(__dirname + "/../db/shuffle_table.json", "utf8")),
     JSON.parse(
       readFileSync(__dirname + "/../db/shuffle_table_reverse.json", "utf8")
-    )
-    // 6
+    ),
+    JSON.parse(readFileSync(__dirname + "/../db/initial_vector.json", "utf8")),
+    14
   );
 
-  static articleLen = 1500;
+  static shuffler2 = new Shuffler(
+    JSON.parse(readFileSync(__dirname + "/../db/shuffle_table copy.json", "utf8")),
+    JSON.parse(
+      readFileSync(__dirname + "/../db/shuffle_table_reverse copy.json", "utf8")
+    ),
+    JSON.parse(readFileSync(__dirname + "/../db/initial_vector copy.json", "utf8")),
+    14
+  );
+
+  static contentLen = 1250;
   static addressLen = 3500;
 
-  // cypherLen = 21000
+  // cypherLen = 17500
   static encryptCypherContent(cypherContent: string) {
-    cypherContent = reverse(this.shuffler.shuffle(cypherContent));
-    return this.shuffler.shuffle(cypherContent);
+    cypherContent = this.shuffler1.deshuffle(cypherContent);
+    cypherContent = reverse(cypherContent);
+    cypherContent = this.shuffler2.shuffle(cypherContent);
+    return cypherContent;
   }
 
   static decryptCypherContent(cypherAddress: string) {
-    cypherAddress = reverse(this.shuffler.deshuffle(cypherAddress));
-    return this.shuffler.deshuffle(cypherAddress);
+    cypherAddress = this.shuffler2.deshuffle(cypherAddress);
+    cypherAddress = reverse(cypherAddress);
+    cypherAddress = this.shuffler1.shuffle(cypherAddress);
+    return cypherAddress;
   }
 
   static getAddress(plainContent: string) {
-    const plainContentWithPad = plainContent.padEnd(this.articleLen, " ");
+    const plainContentWithPad = plainContent.padEnd(this.contentLen, " ");
     const cypherContent = this.contentManager.encrypt(plainContentWithPad);
     const cypherAddress = this.encryptCypherContent(cypherContent);
     const plainAddress = this.addressManager.decrypt(cypherAddress);

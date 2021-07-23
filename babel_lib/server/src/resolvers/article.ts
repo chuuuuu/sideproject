@@ -1,23 +1,36 @@
 import { Article } from "../entities/Article";
-import {
-  Arg,
-  Resolver,
-  Query,
-} from "type-graphql";
+import { Arg, Resolver, Query, ObjectType, Field } from "type-graphql";
+
+@ObjectType()
+class Response {
+  @Field(() => [String], { nullable: true })
+  errors?: String[];
+
+  @Field(() => String, { nullable: true })
+  data?: String;
+}
 
 @Resolver()
 export class ArticleResolver {
-  @Query(() => String)
-  content(
-    @Arg("address") address: string
-  ): string {
-    return Article.findContent(address);
+  @Query(() => Response)
+  getContent(@Arg("address") address: string): Response {
+    if (address.length !== Article.addressLen) {
+      return {
+        errors: [`address length must be ${Article.addressLen}`],
+      };
+    }
+
+    return { data: Article.findContent(address) };
   }
 
-  @Query(() => String)
-  address(
-    @Arg("content") content: string
-  ): string {
-    return Article.findAddress(content);
+  @Query(() => Response)
+  getAddress(@Arg("content") content: string): Response {
+    if (content.length !== Article.contentLen) {
+      return {
+        errors: [`content length must be ${Article.contentLen}`],
+      };
+    }
+
+    return { data: Article.findAddress(content) };
   }
 }

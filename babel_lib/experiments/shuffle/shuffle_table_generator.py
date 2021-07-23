@@ -10,7 +10,15 @@ import random
 import json
 
 if __name__ == "__main__":
-    TABLE_LEN = 2**12
+    BLOCK_SIZE = 14
+    TABLE_LEN = 2**BLOCK_SIZE
+    # save initial vector
+    iv = ""
+    for i in range(BLOCK_SIZE):
+        iv += (random.choice(["0", "1"]))
+    with open("initial_vector.json", 'w', encoding="utf-8") as f:
+        json.dump(iv, f, ensure_ascii=False)
+
     # save shuffle_table
     shuffle_table = list(range(TABLE_LEN))
     random.shuffle(shuffle_table)

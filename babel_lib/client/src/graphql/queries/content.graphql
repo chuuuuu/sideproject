@@ -1,3 +1,6 @@
-query Content($address: String!){
-  content(address: $address)
+query GetContent($address: String!){
+  getContent(address: $address){
+    errors
+    data
+  }
 }

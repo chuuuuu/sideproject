@@ -1,0 +1,6 @@
+query GetAddress($content: String!){
+  getAddress(content: $content){
+    errors
+    data
+  }
+}
