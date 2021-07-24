@@ -33,9 +33,8 @@ console.log(`your client secret: ${process.env.clientSecret}`);
 passport.use(
   new GoogleStrategy(
     {
-      clientID:
-        "694094429187-9jo4vcpjc0ndu65abfo88j4fbfc1c09l.apps.googleusercontent.com",
-      clientSecret: "Xp_vJFM7eJv6UpTwxyWNmrVl",
+      clientID: process.env.clientID,
+      clientSecret: process.env.clientSecret,
       callbackURL: "http://localhost:3000/google/callback",
     },
     function (accessToken, refreshToken, profile, done) {
