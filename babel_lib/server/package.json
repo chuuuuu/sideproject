@@ -15,6 +15,7 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "watch": "tsc -w",
-    "dev": "nodemon --exec ts-node src/index.ts"
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "gen": "cd src/db && ./gen.sh"
   }
 }

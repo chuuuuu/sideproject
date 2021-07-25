@@ -61,8 +61,8 @@ const alphabets: string[] = [
   "7",
   "8",
   "9",
-  "+",
-  "/",
+  "-",
+  "_",
 ];
 
 const alphabets_reverse: Record<string, number> = {
@@ -128,8 +128,8 @@ const alphabets_reverse: Record<string, number> = {
   "7": 59,
   "8": 60,
   "9": 61,
-  "+": 62,
-  "/": 63,
+  "-": 62,
+  _: 63,
 };
 
 const ADDRESS_LEN = 3500;
@@ -152,15 +152,15 @@ export const getNextAddress = (address: string): string | null => {
   if (address === alphabets[alphabets.length - 1].repeat(ADDRESS_LEN))
     return null;
 
-  const addressArray = address.split("").reverse()
+  const addressArray = address.split("").reverse();
   for (let i = 0; i < ADDRESS_LEN; i++) {
     const alphabet = addressArray[i];
     const number = alphabets_reverse[alphabet] + 1;
-    if(number != ALPHABETS_LEN){
+    if (number != ALPHABETS_LEN) {
       addressArray[i] = alphabets[number];
       break;
     }
-    
+
     addressArray[i] = alphabets[0];
   }
 
@@ -170,19 +170,18 @@ export const getNextAddress = (address: string): string | null => {
 
 export const getPrevAddress = (address: string): string | null => {
   address = padAddress(address);
-  if (address === alphabets[0].repeat(ADDRESS_LEN))
-    return null;
+  if (address === alphabets[0].repeat(ADDRESS_LEN)) return null;
 
-  const addressArray = address.split("").reverse()
+  const addressArray = address.split("").reverse();
   for (let i = 0; i < ADDRESS_LEN; i++) {
     const alphabet = addressArray[i];
     const number = alphabets_reverse[alphabet] - 1;
-    if(number != -1){
+    if (number != -1) {
       addressArray[i] = alphabets[number];
       break;
     }
-    
-    addressArray[i] = alphabets[ALPHABETS_LEN-1];
+
+    addressArray[i] = alphabets[ALPHABETS_LEN - 1];
   }
 
   const nextAddress = addressArray.reverse().join("");

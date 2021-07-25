@@ -1,4 +1,10 @@
-import { readFileSync } from "fs";
+import babel_alphabets from "../db/babel_alphabets.json";
+import babel_alphabets_reverse from "../db/babel_alphabets_reverse.json";
+import base64_alphabets from "../db/base64_alphabets.json";
+import base64_alphabets_reverse from "../db/base64_alphabets_reverse.json";
+import initial_vector from "../db/initial_vector.json";
+import shuffle_table from "../db/shuffle_table.json";
+import shuffle_table_reverse from "../db/shuffle_table_reverse.json";
 
 type Alphabet = string;
 type Index = number;
@@ -111,65 +117,48 @@ class Shuffler {
 }
 
 export class BabelManager {
-  static contentManager = new AlphabetManager(
-    JSON.parse(readFileSync(__dirname + "/../db/babel_alphabets.json", "utf8")),
-    JSON.parse(
-      readFileSync(__dirname + "/../db/babel_alphabets_reverse.json", "utf8")
-    ),
+  private static contentManager = new AlphabetManager(
+    babel_alphabets,
+    babel_alphabets_reverse,
     14
   );
 
-  static addressManager = new AlphabetManager(
-    JSON.parse(
-      readFileSync(__dirname + "/../db/base64_alphabets.json", "utf8")
-    ),
-    JSON.parse(
-      readFileSync(__dirname + "/../db/base64_alphabets_reverse.json", "utf8")
-    ),
-    5
+  private static addressManager = new AlphabetManager(
+    base64_alphabets,
+    base64_alphabets_reverse,
+    6
   );
 
-  static shuffler1 = new Shuffler(
-    JSON.parse(readFileSync(__dirname + "/../db/shuffle_table.json", "utf8")),
-    JSON.parse(
-      readFileSync(__dirname + "/../db/shuffle_table_reverse.json", "utf8")
-    ),
-    JSON.parse(readFileSync(__dirname + "/../db/initial_vector.json", "utf8")),
+  private static shuffler = new Shuffler(
+    shuffle_table,
+    shuffle_table_reverse,
+    initial_vector,
     14
   );
 
-  static shuffler2 = new Shuffler(
-    JSON.parse(readFileSync(__dirname + "/../db/shuffle_table copy.json", "utf8")),
-    JSON.parse(
-      readFileSync(__dirname + "/../db/shuffle_table_reverse copy.json", "utf8")
-    ),
-    JSON.parse(readFileSync(__dirname + "/../db/initial_vector copy.json", "utf8")),
-    14
-  );
-
-  static contentLen = 1250;
+  static contentLen = 1500;
   static addressLen = 3500;
 
   // cypherLen = 17500
-  static encryptCypherContent(cypherContent: string) {
-    cypherContent = this.shuffler1.deshuffle(cypherContent);
+  private static encryptCypherContent(cypherContent: string) {
+    cypherContent = this.shuffler.deshuffle(cypherContent);
     cypherContent = reverse(cypherContent);
-    cypherContent = this.shuffler2.shuffle(cypherContent);
+    cypherContent = this.shuffler.shuffle(cypherContent);
     cypherContent = reverse(cypherContent);
-    cypherContent = this.shuffler1.shuffle(cypherContent);
+    cypherContent = this.shuffler.shuffle(cypherContent);
     cypherContent = reverse(cypherContent);
-    cypherContent = this.shuffler2.deshuffle(cypherContent);
+    cypherContent = this.shuffler.deshuffle(cypherContent);
     return cypherContent;
   }
 
-  static decryptCypherContent(cypherAddress: string) {
-    cypherAddress = this.shuffler2.shuffle(cypherAddress);
+  private static decryptCypherContent(cypherAddress: string) {
+    cypherAddress = this.shuffler.shuffle(cypherAddress);
     cypherAddress = reverse(cypherAddress);
-    cypherAddress = this.shuffler1.deshuffle(cypherAddress);
+    cypherAddress = this.shuffler.deshuffle(cypherAddress);
     cypherAddress = reverse(cypherAddress);
-    cypherAddress = this.shuffler2.deshuffle(cypherAddress);
+    cypherAddress = this.shuffler.deshuffle(cypherAddress);
     cypherAddress = reverse(cypherAddress);
-    cypherAddress = this.shuffler1.shuffle(cypherAddress);
+    cypherAddress = this.shuffler.shuffle(cypherAddress);
     return cypherAddress;
   }
 

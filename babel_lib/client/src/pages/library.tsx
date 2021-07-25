@@ -23,8 +23,6 @@ const Library: React.FC = () => {
   const nextAddress = getNextAddress(address);
   const prevAddress = getPrevAddress(address);
 
-  // console.log(data?.getContent.data);
-
   return (
     <Box padding={4}>
       <Textarea mt={8} value={address} onChange={handleInputChange}></Textarea>
