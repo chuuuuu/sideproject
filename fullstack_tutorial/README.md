@@ -629,3 +629,26 @@ see more [link](https://uxdesign.cc/why-facebook-says-cursor-pagination-is-the-g
 
 you can use query builder to build your custom sql
 see more [link](https://typeorm.io/#/select-query-builder)
+
+## Mock data
+
+In this section, we generate mock posts by following steps
+
+1. visit [mockaroo](https://www.mockaroo.com/) and fill up what kind of data do you want for each column
+
+   - for example
+     Field Type | Type | Options
+     --------------|-------------|---------------------------------------
+     title | Movie Title |  
+     text | Paragraphs | at least 1 but no more than 3
+     "creatorId" | Custom List | 1 / random
+
+2. click on `sql`, and download the fake datas
+3. use following command to create migration
+
+```
+npx typeorm migration:create -n FakePosts
+```
+
+4. paste the query into migration
+5. run migration with your typeorm client
