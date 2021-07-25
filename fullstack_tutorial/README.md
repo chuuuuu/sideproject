@@ -652,3 +652,14 @@ npx typeorm migration:create -n FakePosts
 
 4. paste the query into migration
 5. run migration with your typeorm client
+
+## Chakra Styling
+
+In this part, we use element provided by chakra to show the posts.
+
+### notes
+
+- `data!`
+  - we can use `!` to tell typescript that data is not `undefined`
+- field resolver
+  - we can use field resolver to create new field
