@@ -490,3 +490,6 @@ see more [site](https://typegraphql.com/docs/0.16.0/middlewares.html)
 in this [article](https://formidable.com/open-source/urql/docs/architecture/), we can understand how `urql` works, and what `operation`, `result` and `exchange` is in `urql`. 
 
 also they provides lots of exchanges, such as [error exchange](https://formidable.com/open-source/urql/docs/api/core/#errorexchange) which is used for global error handling.
+
+## Next.js Query Params
+see more [link](https://nextjs.org/docs/routing/dynamic-routes)
