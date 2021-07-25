@@ -474,3 +474,19 @@ also you can uninstall mikro-orm now
 
 ### notes
 we need reflect-metadata to run typeorm
+
+## Many to One / One to Many
+Many-to-one / one-to-many is a relation where A contains multiple instances of B, but B contains only one instance of A.
+
+see more [site](https://typeorm.io/#/many-to-one-one-to-many-relations)
+
+### MiddlewareFn
+By using middlewares you can extract the common used code from your resolvers and then just declaratively attach it using decorator or even register globally.
+
+For example, you can use it as authentication.
+see more [site](https://typegraphql.com/docs/0.16.0/middlewares.html)
+
+## Global Error Handling
+in this [article](https://formidable.com/open-source/urql/docs/architecture/), we can understand how `urql` works, and what `operation`, `result` and `exchange` is in `urql`. 
+
+also they provides lots of exchanges, such as [error exchange](https://formidable.com/open-source/urql/docs/api/core/#errorexchange) which is used for global error handling.
