@@ -7,8 +7,10 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  OneToMany,
 } from "typeorm";
 import { User } from "./User";
+import { Updoot } from "./Updoot";
 
 @ObjectType()
 @Entity()
@@ -37,6 +39,10 @@ export class Post extends BaseEntity {
   // many posts can be owned by one creator
   @ManyToOne(() => User, (user) => user.posts)
   creator: User;
+
+  @Field(() => Updoot)
+  @OneToMany(() => Updoot, (updoot) => updoot.post)
+  updoots: Updoot[];
 
   @Field(() => String)
   @CreateDateColumn()

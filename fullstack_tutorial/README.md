@@ -687,3 +687,12 @@ In this section, we write our own sql to load post with user data
 
 ## GraphQL Field Permissions
 We can use `FieldResolver` to decide overwrite the field, and return the field depends on different situation.
+
+## Many to Many
+In this section, we create a new entity `Updoot` used for represent the `Many to Many` relationship between `Post` and `User`.
+
+we will record who like / dislike which post in each updoot object.
+
+hence, both a post and a user can have a lot of upvote
+
+however, an upvote can only own one post and one user

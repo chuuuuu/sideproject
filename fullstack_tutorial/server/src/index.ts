@@ -15,6 +15,7 @@ import cors from "cors";
 import { createConnection } from "typeorm";
 import { Post } from "./entities/Post";
 import { User } from "./entities/User";
+import { Updoot } from "./entities/Updoot";
 import path from "path";
 
 const main = async () => {
@@ -25,14 +26,14 @@ const main = async () => {
     username: "postgres",
     password: "postgres",
     logging: true,
-    entities: [Post, User],
+    entities: [Post, User, Updoot],
     // with this, you dont need to run migration
     synchronize: true,
     migrations: [path.join(__dirname, "./migrations/*")],
   });
 
   await conn.runMigrations();
-  // Post.delete({});  
+  // Post.delete({});
 
   // server setup
   const app = express();
