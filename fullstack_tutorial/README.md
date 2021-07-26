@@ -681,3 +681,6 @@ In this section, we append `"createdAt"` column into our mock data.
 
 ## URQL Pagination Has More
 In this step, we complete the pagination. also we create a new graphql object type. in that type, we tell frontend if there's more data you can load.
+
+## GraphQL Fetching Relationships
+In this section, we write our own sql to load post with user data
