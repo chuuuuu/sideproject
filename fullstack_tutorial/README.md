@@ -684,3 +684,6 @@ In this step, we complete the pagination. also we create a new graphql object ty
 
 ## GraphQL Fetching Relationships
 In this section, we write our own sql to load post with user data
+
+## GraphQL Field Permissions
+We can use `FieldResolver` to decide overwrite the field, and return the field depends on different situation.
