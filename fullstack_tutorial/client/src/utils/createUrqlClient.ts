@@ -27,16 +27,31 @@ const cursorPagination = (): Resolver => {
     }
 
     const fieldKey = `${fieldName}(${stringifyVariables(fieldArgs)})`;
-    const isItInTheCache = cache.resolve(entityKey, fieldKey);
+    const isItInTheCache = cache.resolve(
+      cache.resolve(entityKey, fieldKey) as string,
+      "posts"
+    );
     // if info.partial is true, urql will know that the result is partial, we still need to fetch data from server, even though there're some datas in result
     info.partial = !isItInTheCache;
+    console.log(info.partial);
+
     const results: string[] = [];
+    let hasMore = true;
     fieldInfos.forEach((fi) => {
-      const data = cache.resolve(entityKey, fi.fieldKey) as string[];
+      const key = cache.resolve(entityKey, fi.fieldKey) as string;
+      const data = cache.resolve(key, "posts") as string[];
+      const _hasMore = cache.resolve(key, "hasMore");
+      if (!_hasMore) {
+        hasMore = _hasMore as boolean;
+      }
       results.push(...data);
     });
 
-    return results;
+    return {
+      __typename: "PaginatedPosts",
+      hasMore,
+      posts: results,
+    };
 
     // const visited = new Set();
     // let result: NullArray<string> = [];
@@ -97,9 +112,16 @@ export const createUrqlClient = (ssrExchange: any) => ({
   fetchOptions: {
     credentials: "include" as const,
   },
+  // the urql client will go through the exchanges by the order
+  // hence, urql client will visit cache-exchange first
+  // if cacheexchange ask urql to fetch
+  // then urql will fetch data in the fetch-exchange
   exchanges: [
     dedupExchange,
     cacheExchange({
+      keys: {
+        PaginatedPosts: () => null,
+      },
       resolvers: {
         Query: {
           posts: cursorPagination(),

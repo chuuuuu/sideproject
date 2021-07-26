@@ -679,4 +679,5 @@ In this section, we append `"createdAt"` column into our mock data.
 | ---------- | -------- | ---------------------------------------------- |
 | "createAt" | Datetime | 07/26/2020 to 07/26/2021 format: ISO 8601(UTC) |
 
-## 
+## URQL Pagination Has More
+In this step, we complete the pagination. also we create a new graphql object type. in that type, we tell frontend if there's more data you can load.
