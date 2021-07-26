@@ -636,12 +636,13 @@ In this section, we generate mock posts by following steps
 
 1. visit [mockaroo](https://www.mockaroo.com/) and fill up what kind of data do you want for each column
 
-   - for example
-     Field Type | Type | Options
-     --------------|-------------|---------------------------------------
-     title | Movie Title |  
-     text | Paragraphs | at least 1 but no more than 3
-     "creatorId" | Custom List | 1 / random
+for example
+
+| Field Type  | Type        | Options                       |
+| ----------- | ----------- | ----------------------------- |
+| title       | Movie Title |
+| text        | Paragraphs  | at least 1 but no more than 3 |
+| "creatorId" | Custom List | 1 / random                    |
 
 2. click on `sql`, and download the fake datas
 3. use following command to create migration
@@ -665,7 +666,17 @@ In this part, we use element provided by chakra to show the posts.
   - we can use field resolver to create new field
 
 ## More URQL Pagination
-In this section, we modify the code of `simplePagination`. 
+
+In this section, we modify the code of `simplePagination`.
 
 [click here to see the source code](https://github.com/FormidableLabs/urql/blob/42b52ca45c5ab84ffd1a66e486e373a5d8721c27/exchanges/graphcache/src/extras/simplePagination.ts)
 
+## Fix Mock Data
+
+In this section, we append `"createdAt"` column into our mock data.
+
+| Field Type | Type     | Options                                        |
+| ---------- | -------- | ---------------------------------------------- |
+| "createAt" | Datetime | 07/26/2020 to 07/26/2021 format: ISO 8601(UTC) |
+
+## 

@@ -32,6 +32,7 @@ const main = async () => {
   });
 
   await conn.runMigrations();
+  // Post.delete({});  
 
   // server setup
   const app = express();

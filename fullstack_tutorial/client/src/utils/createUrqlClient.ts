@@ -28,6 +28,7 @@ const cursorPagination = (): Resolver => {
 
     const fieldKey = `${fieldName}(${stringifyVariables(fieldArgs)})`;
     const isItInTheCache = cache.resolve(entityKey, fieldKey);
+    // if info.partial is true, urql will know that the result is partial, we still need to fetch data from server, even though there're some datas in result
     info.partial = !isItInTheCache;
     const results: string[] = [];
     fieldInfos.forEach((fi) => {
