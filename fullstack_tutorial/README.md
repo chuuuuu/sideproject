@@ -663,3 +663,9 @@ In this part, we use element provided by chakra to show the posts.
   - we can use `!` to tell typescript that data is not `undefined`
 - field resolver
   - we can use field resolver to create new field
+
+## More URQL Pagination
+In this section, we modify the code of `simplePagination`. 
+
+[click here to see the source code](https://github.com/FormidableLabs/urql/blob/42b52ca45c5ab84ffd1a66e486e373a5d8721c27/exchanges/graphcache/src/extras/simplePagination.ts)
+
