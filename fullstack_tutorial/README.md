@@ -703,3 +703,6 @@ In this section, we use `invalidate` method to delete the cache after create new
 ## Upvote UI
 In this section, we use `IconButton` and the icon provided by `chakra-ui` to build updoot and downdoot button
 
+## Change Vote
+In this section, we update updoot and the point of post if the updoot already exist
+
