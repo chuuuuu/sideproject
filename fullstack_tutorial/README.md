@@ -751,3 +751,10 @@ Since, we are using server side rendering, we need to tell nextjs server what's 
 In this section, we build a new page, that people can visit and see the complete article. Also, we use the keyword `relations` to load creator of the post easily.
 
 However, here we leave a bug. After we visit the single post page, we will fetch post data from graphql directly, but we haven't give the vote status to user for post mutation yet.
+
+## Delete Post
+In this section, we implement the delete post function. however, we are using foreign key between post and updoot. Hence, we need to delete the updoot related to the post deleted. With typeorm, it provides `CASCADE` to help us do this automatically.
+
+### Warning
+Keep in mind - great power comes with great responsibility. Cascades may seem like a good and easy way to work with relations, but they may also bring bugs and security issues when some undesired object is being saved into the database. Also, they provide a less explicit way of saving new objects into the database.
+see more [site](https://orkhan.gitbook.io/typeorm/docs/relations#cascades)
