@@ -75,7 +75,14 @@ export class PostResolver {
     const realLimit = Math.min(50, limit);
     const reaLimitPlusOne = realLimit + 1;
 
-    const posts = await getConnection().query(`
+    const parameters: any[] = [];
+
+    if (cursor) {
+      parameters.push(new Date(parseInt(cursor)));
+    }
+
+    const posts = await getConnection().query(
+      `
     select p.*,
     json_build_object(
       'id', u.id,
@@ -86,10 +93,12 @@ export class PostResolver {
       ) creator
     from post p
     inner join public.user u on u.id = p."creatorId"
-    ${cursor ? `where p."createdAt" < ${new Date(parseInt(cursor))}` : ""}
+    ${cursor ? `where p."createdAt" < $1` : ""}
     order by p."createdAt" DESC
     limit ${reaLimitPlusOne}
-    `);
+    `,
+      parameters
+    );
 
     // const qb = getConnection()
     //   .getRepository(Post)
@@ -105,6 +114,8 @@ export class PostResolver {
     // }
 
     // const posts = await qb.getMany();
+
+    console.log(posts);
 
     return {
       posts: posts.slice(0, realLimit),

@@ -33,7 +33,6 @@ const cursorPagination = (): Resolver => {
     );
     // if info.partial is true, urql will know that the result is partial, we still need to fetch data from server, even though there're some datas in result
     info.partial = !isItInTheCache;
-    console.log(info.partial);
 
     const results: string[] = [];
     let hasMore = true;
