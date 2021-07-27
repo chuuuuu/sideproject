@@ -44,7 +44,8 @@ const Index = () => {
           {/* you can use data! to tell typescript that data is definitely not undefined */}
           {data!.posts.posts.map((p) => (
             <Box key={p.id} p={5} shadow="md" borderWidth="1px">
-              <Heading fontSize="xl">{p.title}</Heading>
+              <Heading fontSize="xl">{p.title}</Heading>{" "}
+              <Text>posted by {p.creator.username}</Text>{" "}
               <Text mt={4}>{p.textSnippet}</Text>
             </Box>
           ))}

@@ -696,3 +696,7 @@ we will record who like / dislike which post in each updoot object.
 hence, both a post and a user can have a lot of upvote
 
 however, an upvote can only own one post and one user
+
+## Invalidate Queries
+In this section, we use `invalidate` method to delete the cache after create new posts.
+
