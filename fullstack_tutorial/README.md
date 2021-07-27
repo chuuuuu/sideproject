@@ -680,15 +680,19 @@ In this section, we append `"createdAt"` column into our mock data.
 | "createAt" | Datetime | 07/26/2020 to 07/26/2021 format: ISO 8601(UTC) |
 
 ## URQL Pagination Has More
+
 In this step, we complete the pagination. also we create a new graphql object type. in that type, we tell frontend if there's more data you can load.
 
 ## GraphQL Fetching Relationships
+
 In this section, we write our own sql to load post with user data
 
 ## GraphQL Field Permissions
+
 We can use `FieldResolver` to decide overwrite the field, and return the field depends on different situation.
 
 ## Many to Many
+
 In this section, we create a new entity `Updoot` used for represent the `Many to Many` relationship between `Post` and `User`.
 
 we will record who like / dislike which post in each updoot object.
@@ -698,11 +702,31 @@ hence, both a post and a user can have a lot of upvote
 however, an upvote can only own one post and one user
 
 ## Invalidate Queries
+
 In this section, we use `invalidate` method to delete the cache after create new posts.
 
 ## Upvote UI
+
 In this section, we use `IconButton` and the icon provided by `chakra-ui` to build updoot and downdoot button
 
 ## Change Vote
+
 In this section, we update updoot and the point of post if the updoot already exist
 
+## Change Vote
+
+In this section, we update our cache by using `graphql-tag`, `readFragment` and `writeFragment`
+
+### packages
+
+- `graphql-tag`: Helpful utilities for parsing GraphQL queries. Includes: gql A JavaScript template literal tag that parses GraphQL query strings into the standard GraphQL AST.
+
+[see more](https://www.apollographql.com/docs/react/performance/babel)
+
+### Babel
+
+Babel is used to compile the code into javascript, and `graphql-tag` use babel to compile the query into Graphql AST before runtime
+
+### Graphql AST
+
+You can think AST(abstract syntax tree) as an object that can improve the process time. Hence, we'd better compile it into AST in compiling time, or you'll need to spend more time in the processing time.
