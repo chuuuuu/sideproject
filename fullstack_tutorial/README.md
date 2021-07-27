@@ -700,3 +700,6 @@ however, an upvote can only own one post and one user
 ## Invalidate Queries
 In this section, we use `invalidate` method to delete the cache after create new posts.
 
+## Upvote UI
+In this section, we use `IconButton` and the icon provided by `chakra-ui` to build updoot and downdoot button
+
