@@ -734,3 +734,14 @@ You can think AST(abstract syntax tree) as an object that can improve the proces
 ## Vote Status
 
 In this section, we use a new field `voteStatus` to tell frontend if user has already updoot or downdoot.
+
+## SSR Cookie Forwarding
+
+Since, we are using server side rendering, we need to tell nextjs server what's our cookie. Otherwise, nextjs server wont know the cookie and cannot pass it to the server.
+
+### server side rendering v.s. client side rendering
+
+- ssr
+  - browser -> next.js -> graphql api
+- client side
+  - browser -> graphql api
