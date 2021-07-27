@@ -745,3 +745,9 @@ Since, we are using server side rendering, we need to tell nextjs server what's 
   - browser -> next.js -> graphql api
 - client side
   - browser -> graphql api
+
+## Single Post
+
+In this section, we build a new page, that people can visit and see the complete article. Also, we use the keyword `relations` to load creator of the post easily.
+
+However, here we leave a bug. After we visit the single post page, we will fetch post data from graphql directly, but we haven't give the vote status to user for post mutation yet.
