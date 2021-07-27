@@ -730,3 +730,7 @@ Babel is used to compile the code into javascript, and `graphql-tag` use babel t
 ### Graphql AST
 
 You can think AST(abstract syntax tree) as an object that can improve the process time. Hence, we'd better compile it into AST in compiling time, or you'll need to spend more time in the processing time.
+
+## Vote Status
+
+In this section, we use a new field `voteStatus` to tell frontend if user has already updoot or downdoot.
