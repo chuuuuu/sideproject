@@ -764,3 +764,17 @@ see more [site](https://orkhan.gitbook.io/typeorm/docs/relations#cascades)
 ## Edit Post
 
 In this section, we implement the update post function.
+
+## Dataloader
+
+### packages
+
+- `dataloader`: DataLoader is a generic utility to be used as part of your application's data fetching layer to provide a simplified and consistent API over various remote data sources such as databases or web services via batching and caching.
+
+see more [link](https://github.com/graphql/dataloader)
+
+### N+1 problem
+
+Suppose you have two class, `Car` and `Wheel`, and every `Car` owns 4 `Wheel`. If you want to query a collection of `Car` with coresponding `Wheel`, you can write a single query to load all of them from the database server. However, orm will ask N + 1 queries to get all of them. This is so called `N+1 Problem`
+
+see more [link](https://stackoverflow.com/questions/97197/what-is-the-n1-selects-problem-in-orm-object-relational-mapping)
