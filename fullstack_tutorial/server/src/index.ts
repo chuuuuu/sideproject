@@ -21,16 +21,14 @@ import { createUserLoader } from "./utils/createUserLoader";
 import { createUpdootLoader } from "./utils/createUpdootLoader";
 
 const main = async () => {
-  console.log(process.env)
-
   // database setup
   const conn = await createConnection({
     type: "postgres",
     url: process.env.DATABASE_URL,
     logging: true,
     entities: [Post, User, Updoot],
-    // with this, you dont need to run migration
-    synchronize: true,
+    // with this, you dont need to run migration (sort of create table stuff)
+    // synchronize: true,
     migrations: [path.join(__dirname, "./migrations/*")],
   });
 
@@ -43,6 +41,9 @@ const main = async () => {
   // redis setup
   const RedisStore = connectRedis(session);
   const redis = new Redis(process.env.REDIS_URL);
+
+  // in production mode, we need to setup proxy to make sure session works
+  app.set("proxy", 1);
 
   // cors
   app.use(
@@ -65,7 +66,6 @@ const main = async () => {
         httpOnly: true,
         sameSite: "lax", // csrf
         secure: PROD, // cookie only works in https
-        domain: PROD ? ".codeponder.com" : undefined,
       },
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET as string,

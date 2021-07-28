@@ -845,7 +845,8 @@ then you can run the following command to test if it can be build
 # chu: user name
 # lireddit: project name
 # test: tag name (like a version)
-docker build -t chu/lireddit:test .
+# we need arch amd64 to run on server
+docker build --platform linux/amd64 -t chu025/lireddit:1 .
 ```
 
 ### dotenv-safe
@@ -868,3 +869,84 @@ npx gen-env-types .env -o src/env.d.ts -e .
 `dotenv-safe` will remind you if you didn't fill up every `.env.example` variables
 
 in the production mode, dokku will fill up some environment variable for us.
+
+## DB Migrations
+
+first, we cannot use `synchronize: true` in production mode, or it will create new table for every launch. to disable synchronize, we need to create our own table creatioin migration. to do this, we need to create `ormconfig.json`
+
+```json
+// in ormconfig.json
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "postgres",
+  "password": "postgres",
+  "database": "lireddit3",
+  "entities": ["src/entities/*.ts"],
+  "migrations": ["src/migrations/*.ts"]
+}
+```
+
+secondly, we can append new script into package.json
+
+```json
+// in package.json
+"typeorm": "ts-node ./node_modules/typeorm/cli.js"
+```
+
+then, we can run the command below to generate table creation migration
+
+```
+npm run typeorm migration:generate -- -n Inititial
+```
+
+finally, we can put the generated migration into the migration folder
+
+### more
+
+we need to setup proxy to make sure session works well by using code below
+
+```
+app.set("proxy", 1);
+```
+
+## docker hub
+
+after you finish the setup, you can create an respository in docker hub, and use the following command to upload the docker image to docker hub
+
+refer to [site](https://dokku.com/docs~v0.21.4/deployment/methods/images/#deploying-from-a-docker-registry)
+
+```shell
+docker login
+# docker push ${user_name}/${project_name}:${tag}
+docker push chu025/lireddit:1
+```
+
+after the image is uploaded, you can pull the image in the vps
+
+```shell
+docker pull chu025/lireddit:1
+docker tag chu025/lireddit:1 dokku/api:latest
+dokku tags:deploy api latest
+```
+
+now you have been successfully deployed your api server. however, the port might not be visible. you can use `dokku proxy:ports api` to check which port is forwarding to the container.
+
+```shell
+# for example you might see
+root@lireddit:~# dokku proxy:ports api
+-----> Port mappings for api
+    -----> scheme  host port  container port
+    http           8080       8080
+```
+
+then you can use `dokku proxy:ports-add api http:80:8080` to add new port forwarding setting.
+
+### https
+
+unfortunately, i havent figure how to enable https (`letsencrypt` might be helpful)
+
+### notes
+
+since I cannot find any appropriate image for ` "argon2": "^0.28.2"`, hence, I downgrade it to ` "argon2": "^0.26.2",`
