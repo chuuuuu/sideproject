@@ -778,3 +778,7 @@ see more [link](https://github.com/graphql/dataloader)
 Suppose you have two class, `Car` and `Wheel`, and every `Car` owns 4 `Wheel`. If you want to query a collection of `Car` with coresponding `Wheel`, you can write a single query to load all of them from the database server. However, orm will ask N + 1 queries to get all of them. This is so called `N+1 Problem`
 
 see more [link](https://stackoverflow.com/questions/97197/what-is-the-n1-selects-problem-in-orm-object-relational-mapping)
+
+### reset cache
+
+In this section, we reload the page when user logout. Also, invalidate all posts after user login. As the result, urql client will fetch the post data for the user logged in again.
