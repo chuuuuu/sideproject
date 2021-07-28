@@ -43,7 +43,7 @@ const main = async () => {
   const redis = new Redis(process.env.REDIS_URL);
 
   // in production mode, we need to setup proxy to make sure session works
-  app.set("proxy", 1);
+  app.set("trust proxy", 1);
 
   // cors
   app.use(

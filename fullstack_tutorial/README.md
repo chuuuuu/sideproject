@@ -950,3 +950,50 @@ unfortunately, i havent figure how to enable https (`letsencrypt` might be helpf
 ### notes
 
 since I cannot find any appropriate image for ` "argon2": "^0.28.2"`, hence, I downgrade it to ` "argon2": "^0.26.2",`
+
+## Deploy Frontend
+### package
+- vercel: Vercel, built by the same team that made Next.js, provides production-grade hosting for Next.js websites with zero configuration.
+
+to install it, run
+```
+npm i -g vercel@latest
+```
+
+### notes
+Next.js has built-in support for loading environment variables from `.env.local` into `process.env.`
+
+In order to expose a variable to the browser you have to prefix the variable with `NEXT_PUBLIC_`. For example:
+
+```
+NEXT_PUBLIC_ANALYTICS_ID=abcdefghijk
+```
+
+see more [link](https://nextjs.org/docs/basic-features/environment-variables)
+
+### script
+before deploy run `npm run build` to make sure it can be successfully compiled.
+
+then, you can simply run `vercel`, fill up the infomation, and you will get the preview of your nextjs project.
+
+run `vercel --prod` to make your nextjs project be production
+
+now, you can visit the vercel website: https://vercel.com
+
+and go -> `Settings` -> `Environment Variables` and setup
+
+on the other hand, you have to modify the cors variable of your backend.
+
+### more works
+
+however, i encounter a problem. when frontend try to fetch data from backend, it gives the errors
+```
+[Warning] [blocked] The page at https://lireddit-steel.vercel.app/ was not allowed to display insecure content from http://147.182.217.19/graphql. (218-0ef53cb8f91a9b7bb6cf.js, line 1)
+
+[Error] Not allowed to request resource
+	(anonymous function) (218-0ef53cb8f91a9b7bb6cf.js:1:18612)
+	promiseReactionJob
+[Error] Fetch API cannot load http://147.182.217.19/graphql due to access control checks.
+	(anonymous function) (218-0ef53cb8f91a9b7bb6cf.js:1:18612)
+	promiseReactionJob
+```
