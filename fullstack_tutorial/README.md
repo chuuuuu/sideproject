@@ -782,3 +782,55 @@ see more [link](https://stackoverflow.com/questions/97197/what-is-the-n1-selects
 ### reset cache
 
 In this section, we reload the page when user logout. Also, invalidate all posts after user login. As the result, urql client will fetch the post data for the user logged in again.
+
+## deploy backend
+
+### deployment
+
+we use dokku to deploy our backend service to vps (virtual private server), and we use digitalocean as our vps.
+
+### steps
+
+1. create account on digitalocean. (you might need to prepay $5)
+2. create a new project, and create a new droplet for it.
+3. select on `Marketplace`
+4. search keyword for `dokku`
+5. select on some option you want
+6. better to use ssh key
+7. follow the instruction `ssh-keygen` given by the page, and get your public ssh key
+8. after you create a droplet, you can get your ipv4 address
+9. now, you can visit the address, and you will see more configuration stuffs
+10. select on `Use virtualhost naming for apps` and click on `Finish Setup`
+11. now you can `ssh root@{ipv4 address}` to visit your vps which would be a dokku container
+12. after you connect to the vps, you can start setup your environment with the dokku documentation
+13. run `dokku apps:create api` to create the application with name `api`
+14. run `sudo dokku plugin:install https://github.com/dokku/dokku-postgres.git` to install postgres service
+15. run `dokku postgres:create hummus` to create a database with name `hummus`
+16. run `dokku postgres:link hummus api` to connect the database to the application
+17. run `sudo dokku plugin:install https://github.com/dokku/dokku-redis.git redis`
+18. run `dokku redis:create olive` to create a redis service with name `olive`
+19. run `dokku redis:link olive api` to connect redis service to the application
+20. now you can see the docker container of postgres and redis by running `docker container list`
+21. the next step is going to write a dockerfile for our application
+
+### service provider comparison
+
+1. vercel, netlify are both for front-end deploy
+2. https://ritza.co/comparisons/heroku-vs-aws-vs-digitalocean-vs-netlify-vs-firebase-vs-docker.html
+3. https://codewithhugo.com/deployment-options-netlify-dokku-on-digitalocean-vs-now.sh-github-pages-heroku-and-aws/
+
+### docker-compose vs dokku
+
+Docker Compose vs Dokku: What are the differences?
+
+Developers describe Docker Compose as "Define and run multi-container applications with Docker". With Compose, you define a multi-container application in a single file, then spin your application up in a single command which does everything that needs to be done to get it running. On the other hand, Dokku is detailed as "Docker powered mini-Heroku in around 100 lines of Bash". Docker powered mini-Heroku. The smallest PaaS implementation you've ever seen.
+
+Docker Compose belongs to "Container Tools" category of the tech stack, while Dokku can be primarily classified under "Platform as a Service".
+
+"Multi-container descriptor" is the primary reason why developers consider Docker Compose over the competitors, whereas "Simple" was stated as the key factor in picking Dokku.
+
+Docker Compose and Dokku are both open source tools. Dokku with 17.8K GitHub stars and 1.45K forks on GitHub appears to be more popular than Docker Compose with 16.9K GitHub stars and 2.61K GitHub forks.
+
+According to the StackShare community, Docker Compose has a broader approval, being mentioned in 1082 company stacks & 3350 developers stacks; compared to Dokku, which is listed in 31 company stacks and 59 developer stacks.
+
+see more [link](https://stackshare.io/stackups/docker-compose-vs-dokku)
