@@ -1,2 +1,5 @@
 /node_modules
 /dist
+# you should add that
+# .env
+# .env.production

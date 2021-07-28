@@ -1,5 +1,6 @@
 // type-orm need reflect-metadata
 import "reflect-metadata";
+import "dotenv-safe/config";
 import { COOKIE_NAME, PROD } from "./config";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
@@ -20,12 +21,12 @@ import { createUserLoader } from "./utils/createUserLoader";
 import { createUpdootLoader } from "./utils/createUpdootLoader";
 
 const main = async () => {
+  console.log(process.env)
+
   // database setup
   const conn = await createConnection({
     type: "postgres",
-    database: "lireddit2",
-    username: "postgres",
-    password: "postgres",
+    url: process.env.DATABASE_URL,
     logging: true,
     entities: [Post, User, Updoot],
     // with this, you dont need to run migration
@@ -41,12 +42,12 @@ const main = async () => {
 
   // redis setup
   const RedisStore = connectRedis(session);
-  const redis = new Redis();
+  const redis = new Redis(process.env.REDIS_URL);
 
   // cors
   app.use(
     cors({
-      origin: "http://localhost:3000",
+      origin: process.env.CORS_ORIGIN,
       credentials: true,
     })
   );
@@ -64,9 +65,10 @@ const main = async () => {
         httpOnly: true,
         sameSite: "lax", // csrf
         secure: PROD, // cookie only works in https
+        domain: PROD ? ".codeponder.com" : undefined,
       },
       saveUninitialized: false,
-      secret: "qowiueojwojfalksdjoqiwueo",
+      secret: process.env.SESSION_SECRET as string,
       resave: false,
     })
   );
@@ -91,7 +93,7 @@ const main = async () => {
     cors: false,
   });
 
-  app.listen(4000, () => {
+  app.listen(parseInt(process.env.PORT as string), () => {
     console.log("server started on localhost:4000");
   });
 };

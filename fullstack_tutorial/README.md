@@ -834,3 +834,37 @@ Docker Compose and Dokku are both open source tools. Dokku with 17.8K GitHub sta
 According to the StackShare community, Docker Compose has a broader approval, being mentioned in 1082 company stacks & 3350 developers stacks; compared to Dokku, which is listed in 31 company stacks and 59 developer stacks.
 
 see more [link](https://stackshare.io/stackups/docker-compose-vs-dokku)
+
+## Docker
+
+in this section, we reference to the [docs](https://nodejs.org/en/docs/guides/nodejs-docker-webapp/) to build our `Dockerfile` and `.dockerignore`
+
+then you can run the following command to test if it can be build
+
+```shell
+# chu: user name
+# lireddit: project name
+# test: tag name (like a version)
+docker build -t chu/lireddit:test .
+```
+
+### dotenv-safe
+
+also you need to setup your environment variable.
+
+in this project, we are using `dotenv-safe`
+
+and remember that, you'd better put .env into your `.gitignore` file. however, it is just a practice for me, i will still upload the .env to github
+
+after you finish your .env file, you can run the command below to generate
+
+- `.env.example` to demostrate what should include in this example
+- `src/env.d.ts` to give the type for our environment variables
+
+```
+npx gen-env-types .env -o src/env.d.ts -e .
+```
+
+`dotenv-safe` will remind you if you didn't fill up every `.env.example` variables
+
+in the production mode, dokku will fill up some environment variable for us.
