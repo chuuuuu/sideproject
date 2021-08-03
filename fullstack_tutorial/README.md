@@ -997,3 +997,10 @@ however, i encounter a problem. when frontend try to fetch data from backend, it
 	(anonymous function) (218-0ef53cb8f91a9b7bb6cf.js:1:18612)
 	promiseReactionJob
 ```
+
+### notes
+
+https required a domain name. hence, it'd better to purchase a domain name to enable https
+
+## Typeorm Caching
+In this [video](https://www.youtube.com/watch?v=1ieedETExwc), ben demostrate how to cache the data fetched by typeorm.
