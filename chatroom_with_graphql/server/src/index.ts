@@ -4,10 +4,9 @@ import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import { HelloResolver } from "./resolvers/hello";
 import { MessageResolver } from "./resolvers/message";
-import { createServer } from "http";
-import { SubscriptionServer } from "subscriptions-transport-ws";
-import { execute, subscribe } from "graphql";
 import cors from "cors";
+import ws from 'ws';
+import { useServer } from 'graphql-ws/lib/use/ws';
 
 const main = async () => {
   const app = express();
@@ -18,39 +17,29 @@ const main = async () => {
     })
   );
 
-  const httpServer = createServer(app);
   const schema = await buildSchema({
     resolvers: [HelloResolver, MessageResolver],
     validate: false,
   });
+
   const apolloServer = new ApolloServer({
     schema: schema,
   });
+  await apolloServer.start();
 
   apolloServer.applyMiddleware({
     app,
     cors: false,
   });
 
-  apolloServer.installSubscriptionHandlers
-
-  SubscriptionServer.create(
-    {
-      // This is the `schema` we just created.
-      schema,
-      // These are imported from `graphql`.
-      execute,
-      subscribe,
-    },
-    {
-      // This is the `httpServer` we created in a previous step.
-      server: httpServer,
-      // This `server` is the instance returned from `new ApolloServer`.
-      path: apolloServer.graphqlPath,
-    }
-  );
-
-  httpServer.listen(8000, () => {
+  const server = app.listen(8000, () => {
+    // create and use the websocket server
+    const wsServer = new ws.Server({
+      server,
+      path: '/graphql',
+    });
+  
+    useServer({ schema }, wsServer);
     console.log("server started on localhost:8000");
   });
 };
