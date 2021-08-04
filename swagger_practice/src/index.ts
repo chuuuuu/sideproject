@@ -17,11 +17,11 @@ const main = async () => {
       },
       servers: [
         {
-          url: "http://localhost:4000",
+          url: "http://localhost:5555",
         },
       ],
     },
-    apis: ["./routes/*.ts"],
+    apis: ["./src/routes/*.ts"],
   };
 
   const specs = swaggerJsDoc(options);
