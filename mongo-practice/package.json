@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "mongodb": "^3.0.7",
+    "typeorm": "^0.2.36"
+  },
+  "scripts": {
+    "dev": "nodemon --exec ts-node src/index.ts"
+  }
+}
