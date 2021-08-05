@@ -59,30 +59,39 @@ $ npm run test:cov
 ```
 
 ## Some useful script
-```
-nest new $project_name
-nest g module $module_name
-nest g controller $controller_name
-nest g service $service_name
-nest g resource $resource_name
+
+```bash
+$ nest new $project_name
+$ nest g module $module_name
+$ nest g controller $controller_name
+$ nest g service $service_name
+$ nest g resource $resource_name
 ```
 
 ## Notes
+
 `Pipes`, `Guards`, `Interceptors` are middleware for specific jobs.
 
-## Support
+## MongoDB
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+To enable MongoDB on localhost, run
 
-## Stay in touch
+```bash
+# add Third-Party Repositories to the lists
+$ brew tap mongodb/brew
+# install mongodb-community
+$ brew install mongodb-community@5.0
+# start the service
+$ brew services start mongodb-community
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+the newest mongodb package is not compatible with typeorm.
+i downgrade to `^3.0.7`
 
-## License
+## More Examples
 
-Nest is [MIT licensed](LICENSE).
+you can find more examples in the [sample directory](https://github.com/nestjs/nest/tree/master/sample)
 
 ## Reference
+
 https://www.youtube.com/watch?v=2n3xS89TJMI
