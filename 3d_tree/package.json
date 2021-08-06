@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "p5": "^1.4.0"
+  },
+  "scripts": {
+    "dev": "browser-sync start --server -f -w"
+  }
+}

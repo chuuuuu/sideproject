@@ -1,5 +1,9 @@
 {
   "dependencies": {
-    "matter-js": "^0.17.1"
+    "matter-js": "^0.17.1",
+    "p5": "^1.4.0"
+  },
+  "scripts": {
+    "dev": "browser-sync start --server -f -w"
   }
 }
