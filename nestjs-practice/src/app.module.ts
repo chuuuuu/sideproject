@@ -5,6 +5,7 @@ import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TodosModule } from './todos/todos.module';
 import { Todo } from './todos/entities/todo.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { Todo } from './todos/entities/todo.entity';
       synchronize: true,
       useUnifiedTopology: true,
     }),
+    AuthModule,
     UsersModule,
     TodosModule,
   ],

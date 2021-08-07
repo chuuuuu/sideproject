@@ -88,6 +88,16 @@ $ brew services start mongodb-community
 the newest mongodb package is not compatible with typeorm.
 i downgrade to `^3.0.7`
 
+## Passport JWT
+
+In this example, client should paste the access_token into `Bearer Token` in `Authentication Header`
+
+There are three fields of jwt you need to know in this example:
+
+- exp: Expiration Time
+- iat: Issued at
+- sub: Subject
+
 ## More Examples
 
 you can find more examples in the [sample directory](https://github.com/nestjs/nest/tree/master/sample)

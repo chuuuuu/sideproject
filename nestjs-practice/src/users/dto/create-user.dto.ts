@@ -6,4 +6,9 @@ export class CreateUserDto {
   @IsAlphanumeric()
   @MaxLength(10)
   name: string;
+
+  @ApiProperty()
+  @IsAlphanumeric()
+  @MaxLength(10)
+  password: string;
 }
