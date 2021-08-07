@@ -98,6 +98,27 @@ There are three fields of jwt you need to know in this example:
 - iat: Issued at
 - sub: Subject
 
+### Workflow
+
+Login
+
+1. user post login with username and password
+2. the login controller recieve the request
+3. LocalAuthGuard check the request with local strategy
+4. local strategy will use the user service to check if username and password are available
+5. the login controller can access user after LocalAuthGuard authenticate
+6. the login controller ask login service to create a jwt token
+7. the login service create a jwt token with jwt service
+8. the login controller give the jwt token to client
+
+Me
+
+1. client get me with the jwt token
+2. the me controller recieve the request
+3. the JwtAuthGuard check the request with jwt strategy
+4. the jwt strategy will check if the token is signed with the secret, and if the token is expired.
+5. the me controller can access user after JwtAuthGuard authenticate
+
 ## More Examples
 
 you can find more examples in the [sample directory](https://github.com/nestjs/nest/tree/master/sample)
