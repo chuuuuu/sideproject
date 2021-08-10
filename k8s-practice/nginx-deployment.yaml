@@ -1,0 +1,40 @@
+# sepcify which api are you using
+apiVersion: apps/v1
+# the category of component
+kind: Deployment
+# every configuration file need to have a metadata and spec field
+# metadata for deployment
+metadata:
+  name: nginx-deployment
+  # Unlike names and UIDs, labels do not provide uniqueness. In general, we expect many objects to carry the same label(s).
+  # the set of pods that a service targets is defined with a label selector
+  labels:
+    app: nginx
+# spec for deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  # template for pod
+  template:
+    # template should also have a metadata and spec field
+    # metadata for pod
+    metadata:
+      labels:
+        app: nginx
+    # spec for pod
+    spec:
+      containers:
+        # `-` indicate item of array
+        - name: nginx
+          image: nginx:1.16
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: "1"
+            requests:
+              memory: 256Mi
+              cpu: "0.2"
