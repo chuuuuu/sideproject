@@ -1,0 +1,407 @@
+<html>
+
+<head>
+<title>ICG WebGL &mdash; HW1</title>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+<script type="text/javascript" src="glMatrix-0.9.5.min.js"></script>
+<script type="text/javascript" src="webgl-utils.js"></script>
+
+<!-- flat -->
+<!-- i cannot determine which light is visible -->
+<script id="flatFragmentShader" type="fragment">
+    #extension GL_OES_standard_derivatives: enable
+    precision mediump float;
+
+    uniform mat4 uNMatrix;
+
+    uniform vec3 uLightPosition0;
+    uniform vec3 uLightIntensity0;
+    uniform vec3 uLightPosition1;
+    uniform vec3 uLightIntensity1;
+    uniform vec3 uLightPosition2;
+    uniform vec3 uLightIntensity2;
+
+    uniform vec3 uEnvIntensity;
+
+    uniform float uKAmbient;
+    uniform float uKDiffuse;
+    uniform float uKSpecular;
+
+    uniform float uNSpecular; // use for power
+
+    varying vec3 fragPosition;
+    varying vec3 fragColor;
+    
+    void main(void) {
+        vec3 dx = dFdx(fragPosition);
+        vec3 dy = dFdy(fragPosition);
+        vec3 normal = normalize(cross(dx, dy));
+
+        // ambinet
+        vec3 ambientIntensity = uKAmbient * fragColor.rgb * uEnvIntensity;
+
+        // diffuse
+        vec3 diffuseIntensity0 = uKDiffuse * fragColor.rgb * uLightIntensity0;
+        vec3 diffuseIntensity1 = uKDiffuse * fragColor.rgb * uLightIntensity1;
+        vec3 diffuseIntensity2 = uKDiffuse * fragColor.rgb * uLightIntensity2;
+        
+        vec3 inComing0 = normalize(uLightPosition0 - fragPosition);
+        vec3 inComing1 = normalize(uLightPosition1 - fragPosition);
+        vec3 inComing2 = normalize(uLightPosition2 - fragPosition);
+        float cosineTheta0 = dot(inComing0, normal);
+        float cosineTheta1 = dot(inComing1, normal);
+        float cosineTheta2 = dot(inComing2, normal);
+
+        diffuseIntensity0 = diffuseIntensity0 * cosineTheta0;
+        diffuseIntensity1 = diffuseIntensity1 * cosineTheta1;
+        diffuseIntensity2 = diffuseIntensity2 * cosineTheta2;
+
+        // specular
+
+        vec3 specularIntensity0 = uKSpecular * uLightIntensity0;
+        vec3 specularIntensity1 = uKSpecular * uLightIntensity1;
+        vec3 specularIntensity2 = uKSpecular * uLightIntensity2;
+
+        vec3 reflectVec0 = normalize(reflect(-inComing0, normal));
+        vec3 reflectVec1 = normalize(reflect(-inComing1, normal));
+        vec3 reflectVec2 = normalize(reflect(-inComing2, normal));
+        float cosineAlpha0 = dot(reflectVec0, normalize(-fragPosition));
+        float cosineAlpha1 = dot(reflectVec1, normalize(-fragPosition));
+        float cosineAlpha2 = dot(reflectVec2, normalize(-fragPosition));
+
+        specularIntensity0 = specularIntensity0 * pow(cosineAlpha0, uNSpecular);
+        specularIntensity1 = specularIntensity1 * pow(cosineAlpha1, uNSpecular);
+        specularIntensity2 = specularIntensity2 * pow(cosineAlpha2, uNSpecular);
+
+        //
+
+        vec3 intensity = ambientIntensity 
+            + diffuseIntensity0 + specularIntensity0 
+            + diffuseIntensity1 + specularIntensity1 
+            + diffuseIntensity2 + specularIntensity2;
+
+        gl_FragColor = vec4(intensity, 1.0);
+    }
+</script>
+
+<!-- how to display backcolor? -->
+<script id="flatVertexShader" type="vertex">
+    attribute vec3 aVertexPosition;
+    attribute vec3 aFrontColor;
+    attribute vec3 aVertexNormal;
+
+    uniform mat4 uMVMatrix;
+    uniform mat4 uPMatrix;
+    
+    // varying
+    varying vec3 fragPosition;
+    varying vec3 fragColor;
+
+    uniform sampler2D uSampler;
+
+    void main(void) {
+        vec4 vPosition4 = uMVMatrix * vec4(aVertexPosition, 1.0);
+        vec3 vPosition3 = vPosition4.xyz;
+
+        fragPosition = vPosition3;
+        fragColor = aFrontColor;
+
+        gl_Position = uPMatrix * vPosition4;
+    }
+</script>
+
+
+<!-- gouraud -->
+<script id="gouraudFragmentShader" type="fragment">
+    precision mediump float;
+    varying vec4 fragcolor;
+    void main(void) {
+        gl_FragColor = fragcolor;
+    }
+</script>
+
+<!-- how to display backcolor? -->
+<script id="gouraudVertexShader" type="vertex">
+    attribute vec3 aVertexPosition;
+    attribute vec3 aFrontColor;
+    attribute vec3 aVertexNormal;
+
+    uniform mat4 uMVMatrix;
+    uniform mat4 uPMatrix;
+    uniform mat4 uNMatrix;
+
+    uniform vec3 uLightPosition0;
+    uniform vec3 uLightIntensity0;
+    uniform vec3 uLightPosition1;
+    uniform vec3 uLightIntensity1;
+    uniform vec3 uLightPosition2;
+    uniform vec3 uLightIntensity2;
+
+    uniform vec3 uEnvIntensity;
+
+    uniform float uKAmbient;
+    uniform float uKDiffuse;
+    uniform float uKSpecular;
+
+    uniform float uNSpecular; // use for power
+
+	varying vec4 fragcolor;
+    uniform sampler2D uSampler;
+
+    void main(void) {
+        vec4 vPosition4 = uMVMatrix * vec4(aVertexPosition, 1.0);
+        vec3 vPosition3 = vPosition4.xyz;
+
+        vec4 vNormal4 = uNMatrix * vec4(aVertexNormal, 1.0);
+        vec3 vNormal3 = vNormal4.xyz;
+
+        // ambinet
+        vec3 ambientIntensity = uKAmbient * aFrontColor.rgb * uEnvIntensity;
+
+        // diffuse
+        vec3 diffuseIntensity0 = uKDiffuse * aFrontColor.rgb * uLightIntensity0;
+        vec3 diffuseIntensity1 = uKDiffuse * aFrontColor.rgb * uLightIntensity1;
+        vec3 diffuseIntensity2 = uKDiffuse * aFrontColor.rgb * uLightIntensity2;
+        
+        vec3 inComing0 = normalize(uLightPosition0 - vPosition3);
+        vec3 inComing1 = normalize(uLightPosition1 - vPosition3);
+        vec3 inComing2 = normalize(uLightPosition2 - vPosition3);
+        vec3 normal = normalize(vNormal3);
+        float cosineTheta0 = dot(inComing0, normal);
+        float cosineTheta1 = dot(inComing1, normal);
+        float cosineTheta2 = dot(inComing2, normal);
+
+        // specular
+
+        vec3 specularIntensity0 = uKSpecular * uLightIntensity0;
+        vec3 specularIntensity1 = uKSpecular * uLightIntensity1;
+        vec3 specularIntensity2 = uKSpecular * uLightIntensity2;
+
+        vec3 reflectVec0 = normalize(reflect(-inComing0, normal));
+        vec3 reflectVec1 = normalize(reflect(-inComing1, normal));
+        vec3 reflectVec2 = normalize(reflect(-inComing2, normal));
+        float cosineAlpha0 = dot(reflectVec0, normalize(-vPosition3));
+        float cosineAlpha1 = dot(reflectVec1, normalize(-vPosition3));
+        float cosineAlpha2 = dot(reflectVec2, normalize(-vPosition3));
+
+        //
+
+        if(cosineTheta0 > 0.0){
+            diffuseIntensity0 = diffuseIntensity0 * cosineTheta0;
+            if(cosineAlpha0 > 0.0){
+                specularIntensity0 = specularIntensity0 * pow(cosineAlpha0, uNSpecular);
+            }
+            else{
+                specularIntensity0 = specularIntensity0 * 0.0;
+            }
+        }
+        else{
+            diffuseIntensity0 = diffuseIntensity0 * 0.0;
+            specularIntensity0 = specularIntensity0 * 0.0;
+        }
+
+        if(cosineTheta1 > 0.0){
+            diffuseIntensity1 = diffuseIntensity1 * cosineTheta1;
+            if(cosineAlpha1 > 0.0){
+                specularIntensity1 = specularIntensity1 * pow(cosineAlpha1, uNSpecular);
+            }
+            else{
+                specularIntensity1 = specularIntensity1 * 0.0;
+            }
+        }
+        else{
+            diffuseIntensity1 = diffuseIntensity1 * 0.0;
+            specularIntensity1 = specularIntensity1 * 0.0;
+        }
+
+        if(cosineTheta2 > 0.0){
+            diffuseIntensity2 = diffuseIntensity2 * cosineTheta2;
+            if(cosineAlpha2 > 0.0){
+                specularIntensity2 = specularIntensity2 * pow(cosineAlpha2, uNSpecular);
+            }
+            else{
+                specularIntensity2 = specularIntensity2 * 0.0;
+            }
+        }
+        else{
+            diffuseIntensity2 = diffuseIntensity2 * 0.0;
+            specularIntensity2 = specularIntensity2 * 0.0;
+        }
+
+        // 
+
+        vec3 intensity = ambientIntensity
+            + diffuseIntensity0 + specularIntensity0
+            + diffuseIntensity1 + specularIntensity1
+            + diffuseIntensity2 + specularIntensity2;
+
+        gl_Position = uPMatrix * vPosition4;
+
+		fragcolor = vec4(intensity, 1.0);
+    }
+</script>
+
+<!-- phong shading -->
+<script id="phongFragmentShader" type="fragment">
+    precision mediump float;
+
+    uniform vec3 uLightPosition0;
+    uniform vec3 uLightIntensity0;
+    uniform vec3 uLightPosition1;
+    uniform vec3 uLightIntensity1;
+    uniform vec3 uLightPosition2;
+    uniform vec3 uLightIntensity2;
+
+    uniform vec3 uEnvIntensity;
+
+    uniform float uKAmbient;
+    uniform float uKDiffuse;
+    uniform float uKSpecular;
+
+    uniform float uNSpecular; // use for power
+
+    varying vec3 fragColor;
+    varying vec3 fragPosition;
+    varying vec3 fragNormal;
+
+    void main(void) {
+        // ambinet
+        vec3 ambientIntensity = uKAmbient * fragColor.rgb * uEnvIntensity;
+
+        // diffuse
+        vec3 diffuseIntensity0 = uKDiffuse * fragColor.rgb * uLightIntensity0;
+        vec3 diffuseIntensity1 = uKDiffuse * fragColor.rgb * uLightIntensity1;
+        vec3 diffuseIntensity2 = uKDiffuse * fragColor.rgb * uLightIntensity2;
+        
+        vec3 inComing0 = normalize(uLightPosition0 - fragPosition);
+        vec3 inComing1 = normalize(uLightPosition1 - fragPosition);
+        vec3 inComing2 = normalize(uLightPosition2 - fragPosition);
+        vec3 normal = normalize(fragNormal);
+        float cosineTheta0 = dot(inComing0, normal);
+        float cosineTheta1 = dot(inComing1, normal);
+        float cosineTheta2 = dot(inComing2, normal);
+
+        // specular
+
+        vec3 specularIntensity0 = uKSpecular * uLightIntensity0;
+        vec3 specularIntensity1 = uKSpecular * uLightIntensity1;
+        vec3 specularIntensity2 = uKSpecular * uLightIntensity2;
+
+        vec3 reflectVec0 = normalize(reflect(-inComing0, normal));
+        vec3 reflectVec1 = normalize(reflect(-inComing1, normal));
+        vec3 reflectVec2 = normalize(reflect(-inComing2, normal));
+        float cosineAlpha0 = dot(reflectVec0, normalize(-fragPosition));
+        float cosineAlpha1 = dot(reflectVec1, normalize(-fragPosition));
+        float cosineAlpha2 = dot(reflectVec2, normalize(-fragPosition));
+
+        //
+
+        if(cosineTheta0 > 0.0){
+            diffuseIntensity0 = diffuseIntensity0 * cosineTheta0;
+            if(cosineAlpha0 > 0.0){
+                specularIntensity0 = specularIntensity0 * pow(cosineAlpha0, uNSpecular);
+            }
+            else{
+                specularIntensity0 = specularIntensity0 * 0.0;
+            }
+        }
+        else{
+            diffuseIntensity0 = diffuseIntensity0 * 0.0;
+            specularIntensity0 = specularIntensity0 * 0.0;
+        }
+
+
+        if(cosineTheta1 > 0.0){
+            diffuseIntensity1 = diffuseIntensity1 * cosineTheta1;
+            if(cosineAlpha1 > 0.0){
+                specularIntensity1 = specularIntensity1 * pow(cosineAlpha1, uNSpecular);
+            }
+            else{
+                specularIntensity1 = specularIntensity1 * 0.0;
+            }
+        }
+        else{
+            diffuseIntensity1 = diffuseIntensity1 * 0.0;
+            specularIntensity1 = specularIntensity1 * 0.0;
+        }
+
+
+        if(cosineTheta2 > 0.0){
+            diffuseIntensity2 = diffuseIntensity2 * cosineTheta2;
+            if(cosineAlpha2 > 0.0){
+                specularIntensity2 = specularIntensity2 * pow(cosineAlpha2, uNSpecular);
+            }
+            else{
+                specularIntensity2 = specularIntensity2 * 0.0;
+            }
+        }
+        else{
+            diffuseIntensity2 = diffuseIntensity2 * 0.0;
+            specularIntensity2 = specularIntensity2 * 0.0;
+        }
+
+
+
+        // 
+
+        vec3 intensity = ambientIntensity 
+            + diffuseIntensity0 + specularIntensity0
+            + diffuseIntensity1 + specularIntensity1    
+            + diffuseIntensity2 + specularIntensity2;
+
+        gl_FragColor = vec4(intensity, 1.0);
+    }
+</script>
+
+<!-- how to display backcolor? -->
+<script id="phongVertexShader" type="vertex">
+    attribute vec3 aVertexPosition;
+    attribute vec3 aFrontColor;
+    attribute vec3 aVertexNormal;
+
+    uniform mat4 uMVMatrix;
+    uniform mat4 uPMatrix;
+    uniform mat4 uNMatrix;
+
+    varying vec3 fragColor;
+    varying vec3 fragPosition;
+    varying vec3 fragNormal;
+
+    uniform sampler2D uSampler;
+
+    void main(void) {
+		fragColor = aFrontColor;
+
+        vec4 vPosition4 = uMVMatrix * vec4(aVertexPosition, 1.0);
+        vec3 vPosition3 = vPosition4.xyz;
+
+        fragPosition = vPosition3;
+
+        vec4 vNormal4 = uNMatrix * vec4(aVertexNormal, 1.0);
+        vec3 vNormal3 = vNormal4.xyz;
+
+        fragNormal = vNormal3;
+
+        gl_Position = uPMatrix * vPosition4;
+    }
+</script>
+
+
+<script type="text/javascript" src="item.js"></script>
+<script type="text/javascript" src="common.js"></script>
+<script type="text/javascript" src="main.js"></script>
+<script type="text/javascript" src="load.js"></script>
+
+</head>
+
+
+<body onload="main();">
+  
+    <canvas id="ICG-canvas" style="border: none;" width="800" height="600"></canvas>
+    <br/>
+
+</body>
+
+</html>
+ 
