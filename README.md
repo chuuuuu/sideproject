@@ -1,2 +1,15 @@
 # Side Projects
+
 write something interesting, and practice on new technology.
+
+## To Learn List
+
+- Bot detection
+- Inappropriate content detection
+  - [categories](https://cloud.google.com/blog/products/ai-machine-learning/filtering-inappropriate-content-with-the-cloud-vision-api)
+    - advertisement
+    - spoof
+    - medical
+    - adult
+    - violence
+  - [How does Quora maintain high quality answers?](https://www.quora.com/How-does-Quora-maintain-high-quality-answers)
