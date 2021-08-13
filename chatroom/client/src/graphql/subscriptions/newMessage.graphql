@@ -1,7 +1,0 @@
-subscription NewMessage {
-  newMessage {
-    id
-    user
-    content
-  }
-}

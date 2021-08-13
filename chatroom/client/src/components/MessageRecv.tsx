@@ -1,18 +1,13 @@
-import { Box, Circle, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import React from "react";
 
 type MessageRecvProps = {
-  user: string;
   content: string;
 };
 
-export const MessageRecv: React.FC<MessageRecvProps> = ({ user, content }) => {
+export const MessageRecv: React.FC<MessageRecvProps> = ({ content }) => {
   return (
     <Flex padding={2}>
-      <Circle size="10" outlineColor="gray.300" bg="gray.200">
-        {user.substr(0, 3)}
-      </Circle>
-
       <Box
         ml="2"
         mr="auto"

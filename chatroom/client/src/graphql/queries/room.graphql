@@ -1,0 +1,13 @@
+query Room {
+  room {
+    id
+    users {
+      id
+    }
+    messages {
+      senderId
+      content
+      createdAt
+    }
+  }
+}

@@ -1,33 +1,19 @@
-import { ObjectType, Field, ID } from "type-graphql";
+import { ObjectType, Field } from "type-graphql";
 
 @ObjectType()
 export class Message {
-  private static messages: Message[] = [];
-  static find() {
-    return this.messages;
+  static create(senderId: string, content: string): Message {
+    const createdAt = new Date();
+    const message: Message = { senderId, content, createdAt };
+    return message;
   }
-
-  static findOne(id: number) {
-    return this.messages[id];
-  }
-
-  static findLast() {
-    return this.messages[this.messages.length-1];
-  }
-
-  static create(user: string, content: string): number {
-    const id = this.messages.length;
-    this.messages.push({ id, user, content });
-
-    return id;
-  }
-
-  @Field(() => ID)
-  id: number;
 
   @Field()
-  user: string;
+  senderId: string;
 
   @Field()
   content: string;
+
+  @Field(() => String)
+  createdAt: Date;
 }

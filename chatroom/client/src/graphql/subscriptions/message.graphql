@@ -1,0 +1,7 @@
+subscription Message {
+  subscribeMessage {
+    senderId
+    content
+    createdAt
+  }
+}

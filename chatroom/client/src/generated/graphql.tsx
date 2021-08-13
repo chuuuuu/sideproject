@@ -16,99 +16,244 @@ export type Scalars = {
 
 export type Message = {
   __typename?: 'Message';
-  id: Scalars['ID'];
-  user: Scalars['String'];
+  senderId: Scalars['String'];
   content: Scalars['String'];
+  createdAt: Scalars['String'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  postMessage: Scalars['Float'];
+  pair: Room;
+  message: Scalars['Boolean'];
+  leaveRoom: Scalars['Boolean'];
+  login: User;
 };
 
 
-export type MutationPostMessageArgs = {
+export type MutationMessageArgs = {
   content: Scalars['String'];
-  user: Scalars['String'];
 };
 
 export type Query = {
   __typename?: 'Query';
   hello: Scalars['String'];
+  room?: Maybe<Room>;
+  me?: Maybe<User>;
+};
+
+export type Room = {
+  __typename?: 'Room';
+  id: Scalars['String'];
+  users: Array<User>;
   messages: Array<Message>;
 };
 
 export type Subscription = {
   __typename?: 'Subscription';
-  newMessage: Message;
+  subscribeMessage: Message;
+  subscribeIsLeave: Scalars['Boolean'];
 };
+
+export type User = {
+  __typename?: 'User';
+  id: Scalars['String'];
+};
+
+export type LeaveRoomMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LeaveRoomMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'leaveRoom'>
+);
+
+export type LoginMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LoginMutation = (
+  { __typename?: 'Mutation' }
+  & { login: (
+    { __typename?: 'User' }
+    & Pick<User, 'id'>
+  ) }
+);
+
+export type PairMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PairMutation = (
+  { __typename?: 'Mutation' }
+  & { pair: (
+    { __typename?: 'Room' }
+    & Pick<Room, 'id'>
+  ) }
+);
 
 export type PostMessageMutationVariables = Exact<{
   content: Scalars['String'];
-  user: Scalars['String'];
 }>;
 
 
 export type PostMessageMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'postMessage'>
+  & Pick<Mutation, 'message'>
 );
 
-export type MessagesQueryVariables = Exact<{ [key: string]: never; }>;
+export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MessagesQuery = (
+export type HelloQuery = (
   { __typename?: 'Query' }
-  & { messages: Array<(
-    { __typename?: 'Message' }
-    & Pick<Message, 'id' | 'user' | 'content'>
+  & Pick<Query, 'hello'>
+);
+
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeQuery = (
+  { __typename?: 'Query' }
+  & { me?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id'>
   )> }
 );
 
-export type NewMessageSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type RoomQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type NewMessageSubscription = (
+export type RoomQuery = (
+  { __typename?: 'Query' }
+  & { room?: Maybe<(
+    { __typename?: 'Room' }
+    & Pick<Room, 'id'>
+    & { users: Array<(
+      { __typename?: 'User' }
+      & Pick<User, 'id'>
+    )>, messages: Array<(
+      { __typename?: 'Message' }
+      & Pick<Message, 'senderId' | 'content' | 'createdAt'>
+    )> }
+  )> }
+);
+
+export type IsLeaveSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type IsLeaveSubscription = (
   { __typename?: 'Subscription' }
-  & { newMessage: (
+  & Pick<Subscription, 'subscribeIsLeave'>
+);
+
+export type MessageSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MessageSubscription = (
+  { __typename?: 'Subscription' }
+  & { subscribeMessage: (
     { __typename?: 'Message' }
-    & Pick<Message, 'id' | 'user' | 'content'>
+    & Pick<Message, 'senderId' | 'content' | 'createdAt'>
   ) }
 );
 
 
+export const LeaveRoomDocument = gql`
+    mutation LeaveRoom {
+  leaveRoom
+}
+    `;
+
+export function useLeaveRoomMutation() {
+  return Urql.useMutation<LeaveRoomMutation, LeaveRoomMutationVariables>(LeaveRoomDocument);
+};
+export const LoginDocument = gql`
+    mutation Login {
+  login {
+    id
+  }
+}
+    `;
+
+export function useLoginMutation() {
+  return Urql.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument);
+};
+export const PairDocument = gql`
+    mutation Pair {
+  pair {
+    id
+  }
+}
+    `;
+
+export function usePairMutation() {
+  return Urql.useMutation<PairMutation, PairMutationVariables>(PairDocument);
+};
 export const PostMessageDocument = gql`
-    mutation PostMessage($content: String!, $user: String!) {
-  postMessage(content: $content, user: $user)
+    mutation PostMessage($content: String!) {
+  message(content: $content)
 }
     `;
 
 export function usePostMessageMutation() {
   return Urql.useMutation<PostMessageMutation, PostMessageMutationVariables>(PostMessageDocument);
 };
-export const MessagesDocument = gql`
-    query Messages {
-  messages {
-    id
-    user
-    content
-  }
+export const HelloDocument = gql`
+    query Hello {
+  hello
 }
     `;
 
-export function useMessagesQuery(options: Omit<Urql.UseQueryArgs<MessagesQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<MessagesQuery>({ query: MessagesDocument, ...options });
+export function useHelloQuery(options: Omit<Urql.UseQueryArgs<HelloQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<HelloQuery>({ query: HelloDocument, ...options });
 };
-export const NewMessageDocument = gql`
-    subscription NewMessage {
-  newMessage {
+export const MeDocument = gql`
+    query Me {
+  me {
     id
-    user
-    content
   }
 }
     `;
 
-export function useNewMessageSubscription<TData = NewMessageSubscription>(options: Omit<Urql.UseSubscriptionArgs<NewMessageSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<NewMessageSubscription, TData>) {
-  return Urql.useSubscription<NewMessageSubscription, TData, NewMessageSubscriptionVariables>({ query: NewMessageDocument, ...options }, handler);
+export function useMeQuery(options: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
+};
+export const RoomDocument = gql`
+    query Room {
+  room {
+    id
+    users {
+      id
+    }
+    messages {
+      senderId
+      content
+      createdAt
+    }
+  }
+}
+    `;
+
+export function useRoomQuery(options: Omit<Urql.UseQueryArgs<RoomQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<RoomQuery>({ query: RoomDocument, ...options });
+};
+export const IsLeaveDocument = gql`
+    subscription IsLeave {
+  subscribeIsLeave
+}
+    `;
+
+export function useIsLeaveSubscription<TData = IsLeaveSubscription>(options: Omit<Urql.UseSubscriptionArgs<IsLeaveSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<IsLeaveSubscription, TData>) {
+  return Urql.useSubscription<IsLeaveSubscription, TData, IsLeaveSubscriptionVariables>({ query: IsLeaveDocument, ...options }, handler);
+};
+export const MessageDocument = gql`
+    subscription Message {
+  subscribeMessage {
+    senderId
+    content
+    createdAt
+  }
+}
+    `;
+
+export function useMessageSubscription<TData = MessageSubscription>(options: Omit<Urql.UseSubscriptionArgs<MessageSubscriptionVariables>, 'query'> = {}, handler?: Urql.SubscriptionHandler<MessageSubscription, TData>) {
+  return Urql.useSubscription<MessageSubscription, TData, MessageSubscriptionVariables>({ query: MessageDocument, ...options }, handler);
 };
