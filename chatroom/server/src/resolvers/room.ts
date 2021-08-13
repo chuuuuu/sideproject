@@ -79,7 +79,7 @@ export class RoomResolver {
     @Ctx() { req }: MyContext,
     @PubSub() pubSub: PubSubEngine
   ): Promise<boolean> {
-    if(!content.length){
+    if (!content.length) {
       throw new Error("empty message is not allowed");
     }
 

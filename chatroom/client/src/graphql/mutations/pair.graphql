@@ -1,5 +1,13 @@
 mutation Pair {
   pair {
     id
+    users {
+      id
+    }
+    messages {
+      senderId
+      content
+      createdAt
+    }
   }
 }

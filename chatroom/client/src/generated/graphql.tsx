@@ -86,6 +86,13 @@ export type PairMutation = (
   & { pair: (
     { __typename?: 'Room' }
     & Pick<Room, 'id'>
+    & { users: Array<(
+      { __typename?: 'User' }
+      & Pick<User, 'id'>
+    )>, messages: Array<(
+      { __typename?: 'Message' }
+      & Pick<Message, 'senderId' | 'content' | 'createdAt'>
+    )> }
   ) }
 );
 
@@ -180,6 +187,14 @@ export const PairDocument = gql`
     mutation Pair {
   pair {
     id
+    users {
+      id
+    }
+    messages {
+      senderId
+      content
+      createdAt
+    }
   }
 }
     `;
