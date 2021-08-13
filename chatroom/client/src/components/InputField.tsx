@@ -42,7 +42,12 @@ export const InputField: React.FC<InputFieldProps> = ({
 
   return (
     <Flex>
-      <Button colorScheme="teal" mr="2" onClick={handleQuit}>
+      <Button
+        mr="2"
+        bg="teal.300"
+        onClick={handleQuit}
+        _hover={{ bg: "tomato" }}
+      >
         Quit
       </Button>
       <Input
@@ -56,10 +61,7 @@ export const InputField: React.FC<InputFieldProps> = ({
         outlineColor="gray.300"
         padding="2"
       />
-      <Button colorScheme="teal" onClick={handleSendMessage} ml="2">
-        Send
-      </Button>
-      <WebRTC/>
+      <WebRTC />
     </Flex>
   );
 };

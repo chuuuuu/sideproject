@@ -63,7 +63,7 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ setIsPair }) => {
         <Box
           mt={8}
           mx="auto"
-          w="80%"
+          w="95%"
           height="500"
           overflowY="scroll"
           mb="2"

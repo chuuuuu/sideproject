@@ -1,7 +1,9 @@
 import Peer from "peerjs";
 import React, { useEffect, useRef, useState } from "react";
-import { Button } from "@chakra-ui/react";
+import { Button, Circle, Icon } from "@chakra-ui/react";
 import { useMeQuery, useRoomQuery } from "../generated/graphql";
+import { PhoneIcon } from "@chakra-ui/icons";
+import { BsFillVolumeMuteFill, BsFillVolumeUpFill } from "react-icons/bs";
 
 type WebRTCProps = {};
 
@@ -115,12 +117,42 @@ export const WebRTC: React.FC<WebRTCProps> = () => {
 
   return (
     <>
-      <Button colorScheme="teal" onClick={handleCall} ml="2">
-        Call
-      </Button>
-      <Button colorScheme="teal" onClick={handleMute} ml="2">
-        {isEnable ? "Mute" : "UnMute"}
-      </Button>
+      <Circle
+        size="40px"
+        bg="teal.400"
+        color="white"
+        ml="2"
+        as={Button}
+        onClick={handleCall}
+        _hover={{ bg: "teal.600" }}
+      >
+        <PhoneIcon />
+      </Circle>
+      {isEnable ? (
+        <Circle
+          onClick={handleMute}
+          size="40px"
+          bg="teal.400"
+          color="white"
+          ml="2"
+          as={Button}
+          _hover={{ bg: "teal.600" }}
+        >
+          <Icon as={BsFillVolumeUpFill} />
+        </Circle>
+      ) : (
+        <Circle
+          onClick={handleMute}
+          size="40px"
+          bg="teal.400"
+          color="white"
+          ml="2"
+          as={Button}
+          _hover={{ bg: "teal.600" }}
+        >
+          <Icon as={BsFillVolumeMuteFill} />
+        </Circle>
+      )}
       <video ref={videoRef} hidden={true} />
     </>
   );
