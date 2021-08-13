@@ -8,14 +8,11 @@ import {
   useMessageSubscription,
   useRoomQuery,
 } from "../generated/graphql";
-import { getPeer } from "../utils/getPeer";
-import { getStream } from "../utils/getStream";
 import { useForm } from "../utils/useForm";
 import { useScroll } from "../utils/useScroll";
 import { InputField, InputState } from "./InputField";
 import { MessageRecv } from "./MessageRecv";
 import { MessageSent } from "./MessageSent";
-import Peer from "peerjs";
 
 type ChatRoomProps = {
   setIsPair: React.Dispatch<React.SetStateAction<boolean>>;
@@ -38,27 +35,6 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ setIsPair }) => {
     messageData?.subscribeMessage,
     isLeaveData?.subscribeIsLeave,
   ]);
-
-  const [peer, setPeer] = useState<Peer | null>(null);
-  useEffect(() => {
-    const id = meData?.me?.id;
-    if (!id) {
-      return;
-    }
-
-    const getPeerAfterFetching = async () => {
-      setPeer(await getPeer(id));
-    };
-    getPeerAfterFetching();
-  }, [meData?.me?.id]);
-
-  const [stream, setStream] = useState<MediaStream | null>(null);
-  useEffect(() => {
-    const getPeerAfterFetching = async () => {
-      setStream(await getStream());
-    };
-    getPeerAfterFetching();
-  }, []);
 
   useEffect(() => {
     if (roomData?.room?.messages) {
@@ -118,34 +94,6 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ setIsPair }) => {
           handleQuit={async () => {
             await leaveRoom();
             setIsPair(false);
-          }}
-          handleCall={async () => {
-            console.log("I call someone");
-            if (!peer || !stream) {
-              return;
-            }
-
-            const id = meData?.me?.id;
-            if (!id) {
-              console.log("no id");
-              return;
-            }
-
-            const bob = roomData?.room?.users.find((user) => user.id !== id);
-            if (!bob) {
-              console.log("no bob");
-              return;
-            }
-
-            let call = peer.call(bob.id, stream);
-
-            call.on("stream", (bobStream) => {
-              console.log(bobStream);
-            });
-
-            call.on("close", () => {
-              console.log("close");
-            });
           }}
         />
       </Box>

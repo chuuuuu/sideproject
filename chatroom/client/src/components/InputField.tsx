@@ -1,6 +1,7 @@
 import { Button, Flex, Input } from "@chakra-ui/react";
 import React from "react";
 import { usePostMessageMutation } from "../generated/graphql";
+import { WebRTC } from "./WebRTC";
 
 export type InputState = {
   content: string;
@@ -10,14 +11,12 @@ export type InputFieldProps = {
   inputState: InputState;
   handleInputStateChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleQuit: () => void;
-  handleCall: () => void;
 };
 
 export const InputField: React.FC<InputFieldProps> = ({
   inputState,
   handleInputStateChange,
   handleQuit,
-  handleCall,
 }) => {
   const [, postMessage] = usePostMessageMutation();
 
@@ -60,9 +59,7 @@ export const InputField: React.FC<InputFieldProps> = ({
       <Button colorScheme="teal" onClick={handleSendMessage} ml="2">
         Send
       </Button>
-      <Button colorScheme="teal" onClick={handleCall} ml="2">
-        Call
-      </Button>
+      <WebRTC/>
     </Flex>
   );
 };
