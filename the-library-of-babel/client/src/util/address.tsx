@@ -187,3 +187,17 @@ export const getPrevAddress = (address: string): string | null => {
   const nextAddress = addressArray.reverse().join("");
   return nextAddress;
 };
+
+const randomChoice = <T,>(arr: T[]) => {
+  return arr[Math.floor(arr.length * Math.random())];
+};
+
+export const getRandomAddress = () => {
+  let address = "";
+  for (let i = 0; i < ADDRESS_LEN; i++) {
+    const alphabet = randomChoice(alphabets);
+    address += alphabet;
+  }
+
+  return address;
+};

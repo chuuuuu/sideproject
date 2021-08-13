@@ -1,5 +1,6 @@
 import { Box, Button, Flex, Textarea } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { NavBar } from "../components/NavBar";
 import { useGetAddressQuery } from "../generated/graphql";
 
 const Search: React.FC = () => {
@@ -13,7 +14,9 @@ const Search: React.FC = () => {
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContentDisplay(e.target.value);
+    if (e.target.value.length <= 1500) {
+      setContentDisplay(e.target.value);
+    }
   };
 
   const handleSearch = () => {
@@ -22,29 +25,32 @@ const Search: React.FC = () => {
   };
 
   return (
-    <Box padding={4}>
-      <Flex mt={8}>
-        <Textarea
-          placeholder="search in library"
-          value={contentDisplay}
-          onChange={handleInputChange}
-        ></Textarea>
-        <Button onClick={handleSearch} m="auto" colorScheme="teal" ml={4}>
-          Search
-        </Button>
-      </Flex>
-      {data?.getAddress.data && isSearch && (
-        <Box>
-          <Box mt={2} fontSize={24}>
-            Address:{" "}
-          </Box>
+    <Box>
+      <NavBar />
+      <Box padding={4}>
+        <Flex mt={4}>
           <Textarea
-            mt={2}
-            readOnly={true}
-            value={data?.getAddress.data}
+            placeholder="search in library"
+            value={contentDisplay}
+            onChange={handleInputChange}
           ></Textarea>
-        </Box>
-      )}
+          <Button onClick={handleSearch} m="auto" colorScheme="teal" ml={4}>
+            Search
+          </Button>
+        </Flex>
+        {data?.getAddress.data && isSearch && (
+          <Box>
+            <Box mt={2} fontSize={24}>
+              Address:
+            </Box>
+            <Textarea
+              mt={2}
+              readOnly={true}
+              value={data?.getAddress.data}
+            ></Textarea>
+          </Box>
+        )}
+      </Box>
     </Box>
   );
 };
