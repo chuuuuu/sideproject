@@ -14,3 +14,10 @@ write something interesting, and practice on new technology.
     - violence
   - [How does Quora maintain high quality answers?](https://www.quora.com/How-does-Quora-maintain-high-quality-answers)
 - chat bot
+- [fullstack-graphql-airbnb-clone](https://github.com/benawad/fullstack-graphql-airbnb-clone)
+  - formik
+  - npm workspace
+  - react native with expo
+    - learn managed workflow first
+  - [graphql-ts-server-boilerplate]
+    - rate limiting
