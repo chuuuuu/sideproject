@@ -19,5 +19,6 @@ write something interesting, and practice on new technology.
   - npm workspace
   - react native with expo
     - learn managed workflow first
-  - [graphql-ts-server-boilerplate]
+  - [graphql-ts-server-boilerplate](https://github.com/benawad/graphql-ts-server-boilerplate)
     - rate limiting
+- write an npm package
