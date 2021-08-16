@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-rate-limit": "^5.3.0"
+  },
+  "scripts": {
+    "dev": "nodemon --exec ts-node src/index.ts"
+  },
+  "devDependencies": {
+    "@types/express-rate-limit": "^5.1.3"
+  }
+}
