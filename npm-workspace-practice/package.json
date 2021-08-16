@@ -1,7 +1,16 @@
 {
-  "name": "npm-workspace-practice",
+  "name": "nwp",
   "private": true,
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "scripts": {
+    "dev:server": "npm run dev --workspace=packages/server",
+    "dev:web": "npm run start --workspace=packages/web",
+    "dev:app": "npm run start --workspace=packages/app",
+    "build:common": "npm run build --workspace=packages/common",
+    "build:controller": "npm run build --workspace=packages/controller",
+    "build:watch:common": "npm run build:watch --workspace=packages/common",
+    "build:watch:controller": "npm run build:watch --workspace=packages/controller"
+  }
 }
