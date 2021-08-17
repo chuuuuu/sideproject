@@ -17,5 +17,4 @@ write something interesting, and practice on new technology.
 - [fullstack-graphql-airbnb-clone](https://github.com/benawad/fullstack-graphql-airbnb-clone)
   - react native with expo
     - learn managed workflow first
-- write an npm package
-  - manage with lerna
+    - lerna
