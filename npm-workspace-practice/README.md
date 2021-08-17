@@ -17,6 +17,7 @@ with npm workspace, you can:
     +-- controller # api functions, useful hooks (shared by web and app)
     +-- server # express server
     +-- web # react web
+    +-- next # next web
 ```
 
 ## scripts
@@ -40,3 +41,7 @@ you need to postinstall before expo start. see more [here](https://stackoverflow
 ```bash
 expo-yarn-workspaces postinstall
 ```
+
+## next
+
+you can find how next is setup in the [official repo](https://github.com/vercel/next.js/tree/canary/examples/with-yarn-workspaces)

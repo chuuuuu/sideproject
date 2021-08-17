@@ -6,6 +6,7 @@
   ],
   "scripts": {
     "dev:server": "npm run dev --workspace=packages/server",
+    "dev:next": "npm run dev --workspace=packages/next",
     "dev:web": "npm run start --workspace=packages/web",
     "dev:app": "npm run start --workspace=packages/app",
     "build:common": "npm run build --workspace=packages/common",
