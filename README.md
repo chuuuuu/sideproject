@@ -18,3 +18,4 @@ write something interesting, and practice on new technology.
   - react native with expo
     - learn managed workflow first
 - write an npm package
+  - manage with lerna
