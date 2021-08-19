@@ -1,6 +1,6 @@
 # Side Projects
 
-write something interesting, and practice on new technology.
+write something interesting, and practice on new technology. if you dont know what to learn next, refer to the [roadmap](https://roadmap.sh/)!
 
 ## To Learn List
 
