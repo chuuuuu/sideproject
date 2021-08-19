@@ -18,3 +18,4 @@ write something interesting, and practice on new technology. if you dont know wh
   - react native with expo
     - learn managed workflow first
     - lerna
+- boilerplate generator
