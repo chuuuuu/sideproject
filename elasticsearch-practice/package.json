@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@elastic/elasticsearch": "^7.14.0"
+  },
+  "scripts": {
+    "build": "tsc --target es6 --outDir build",
+    "dev": "nodemon --exec ts-node src/index.ts"
+  }
+}
