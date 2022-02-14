@@ -31,14 +31,4 @@ int main() {
   cout << "b > c: " << (b > c) << endl;
   cout << "c > a: " << (c > a) << endl;
   cout << "d > a: " << (d > a) << endl;
-
-  // weird results
-  cout << ("123" < "5") << endl;
-  cout << ("123" < "125") << endl;
-  cout << ("223" > "1234") << endl;
-  cout << ("5" > "12345") << endl;
-  cout << ("1234" > "1111") << endl;
-  cout << ("1234" > "111") << endl;
-  cout << ("1234" > "1") << endl;
-  cout << ("1234" > "1111111111") << endl;
 }

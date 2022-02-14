@@ -60,6 +60,9 @@ int main() {
   mh.push(p3);
 
   // Extracting items from the heap
+  // Me! 
+  // Elon Musk 
+  // Linus Torvalds 
   while (!mh.empty())
   {
     struct Person p = mh.top();
