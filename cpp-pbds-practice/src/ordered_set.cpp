@@ -4,11 +4,11 @@
 using namespace std;
 using namespace __gnu_pbds;
 
-typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+template<class T> using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
 int main()
 {
-  ordered_set s;
+  ordered_set<int> s;
   for(int i=0; i<5; i++){
     // s = {0, 1, 2, 3, 4}
     s.insert(i);
